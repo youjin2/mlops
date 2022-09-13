@@ -1,0 +1,6 @@
+name: stockpred
+docker_env:
+    image: mlflow-image
+entry_points:
+    main:
+        command: "python train.py"
