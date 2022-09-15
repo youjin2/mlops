@@ -39,6 +39,7 @@ def rolling_window(a, window):
     """
     shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
     strides = a.strides + (a.strides[-1],)
+
     return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
 
 
@@ -84,15 +85,13 @@ if __name__ == "__main__":
             random_state=4284,
             verbose=0
         )
-
         clf.fit(X_train, y_train)
-
         predicted = clf.predict(X_test)
 
         mlflow.sklearn.log_model(clf, "model_random_forest")
-
         print(classification_report(y_test, predicted))
 
+        # log 
         mlflow.log_metric("precision_label_0", precision_score(y_test, predicted, pos_label=0))
         mlflow.log_metric("recall_label_0", recall_score(y_test, predicted, pos_label=0))
         mlflow.log_metric("f1score_label_0", f1_score(y_test, predicted, pos_label=0))
