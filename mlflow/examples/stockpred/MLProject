@@ -1,4 +1,4 @@
-name: stockpred
+name: stockpred-demo
 docker_env:
     image: mlflow-image
 entry_points:

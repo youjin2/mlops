@@ -3,7 +3,7 @@ docker based MLflow project example
 - build docker image
     ```bash
     $ cd mlflow/
-    $ docker-compose build
+    $ docker-compose -f docker-compose-demo.yml build
     ```
 - use pre-built `mlflow-image` docker image in this exampe
 - project description
@@ -26,7 +26,7 @@ docker based MLflow project example
     $ cd mlflow/
 
     # run docker-conatiner
-    $ docker-compose up -d
+    $ docker-compose -f docker-compose-demo.yml up -d
     $ docker exec -it mlflow /bin/bash
 
     # run mlflow webserver (note that container:5000 is binded at host:5000)
