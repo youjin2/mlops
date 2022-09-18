@@ -15,6 +15,14 @@ You can also check out the `MLflow trackinig` component which is the webserver p
 4. Production: run the ML project in production
 
 
+### Building MLflow workbench
+development environment components are
+* Docker/Docker compose: handle each of the main component dependencies of the architecture
+* Jupyter: develops data science code and analytics in the context of machine learning
+* MLflow: provides facilities for experiment tracking, model management, registry, and deployment interface
+* PostgresSQL: part of the architecture at this stage, as the storage layer for MLflow for backend metadata
+
+
 ## References
 - [Machine Learning Engineering with MLflow]
 - [Mlflow official documentation]

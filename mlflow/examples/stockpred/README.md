@@ -5,7 +5,7 @@ docker based MLflow project example
     $ cd mlflow/
     $ docker-compose -f docker-compose-demo.yml build
     ```
-- use pre-built `mlflow-image` docker image in this exampe
+- use pre-built `mlflow-demo` docker image in this exampe
 - project description
     - `dataset`: Yahoo Finance dataset
         - contains high, low, open, close values of the stock price
