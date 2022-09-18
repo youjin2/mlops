@@ -4,5 +4,7 @@ scikit-learn==1.1.2
 numpy==1.23.3
 pandas==1.4.4
 pandas-datareader==0.10.0
+xgboost==1.6.2
+matplotlib
 cloudpickle
 scipy
