@@ -33,7 +33,10 @@ $ docker-compose up -d
 ```
 
 ii) run ML experiments on local jupyter and check the results on the MLflow server.  
-ML experiment Examples can be found at [examples/02_docker_stack_example.ipynb]
+ML experiment Examples can be found at
+- [examples/02_docker_stack_example.ipynb]: check docker stack workbench with dummy ML pipeline.
+- [examples/03_experiment_management_in_mlflow.ipynb]: practical example using different ML frameworks.  
+(scikit-learn, xgboost, keras)
 
 
 ## References
@@ -45,5 +48,6 @@ ML experiment Examples can be found at [examples/02_docker_stack_example.ipynb]
 [Machine Learning Engineering with MLflow]: https://github.com/PacktPublishing/Machine-Learning-Engineering-with-MLflow
 [examples/stockpred]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/stockpred
 [examples/02_docker_stack_example.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/02_docker_stack_example.ipynb
+[examples/03_experiment_management_in_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/03_experiment_management_in_mlflow.ipynb
 [Accelerating the Machine Learning Lifecycle with MLflow]: https://cs.stanford.edu/~matei/papers/2018/ieee_mlflow.pdf
 [Mlflow official documentation]: https://www.mlflow.org/docs/latest/index.html
