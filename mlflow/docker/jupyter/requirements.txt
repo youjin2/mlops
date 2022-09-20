@@ -8,6 +8,9 @@ xgboost==1.6.2
 tensorflow==2.8.0
 protobuf==3.20.*
 hyperopt==0.2.7
+pandas_profiling==3.3.0
+feast==0.25.0
+great-expectations==0.15.24
 matplotlib
 cloudpickle
 scipy

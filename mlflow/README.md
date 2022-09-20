@@ -73,8 +73,15 @@ utc_time_created: '2022-09-19 14:43:00.353762'
 - `flavors`: different types of models, whether that is the native models (TensorFlow, Keras, sklearn, and so on)  
 supported by MLflow or the pyfunc model provided by MLflow
 - `signature`: component of the MLmodel that defines the signature and inferences process of the model,  
-also it allows the validation of input data that needs to match the signature of the model.
+also it allows the validation of input data that needs to match the signature of the model
 
+A model life cycle can undergo the following stages
+- `Development`: exploring and trying out different approaches
+- `Staging`: can be tested automatically with production- type traffic
+- `Production`: ready to handle real-life production traffic
+- `Archive`: no longer serves the business purpose that it was initially developed for
+
+Detailed example can be found at [examples/04_managing_models_with_mlflow.ipynb]
 
 
 ## References
@@ -87,5 +94,6 @@ also it allows the validation of input data that needs to match the signature of
 [examples/stockpred]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/stockpred
 [examples/02_docker_stack_example.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/02_docker_stack_example.ipynb
 [examples/03_experiment_management_in_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/03_experiment_management_in_mlflow.ipynb
+[examples/04_managing_models_with_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/04_managing_models_with_mlflow.ipynb
 [Accelerating the Machine Learning Lifecycle with MLflow]: https://cs.stanford.edu/~matei/papers/2018/ieee_mlflow.pdf
 [Mlflow official documentation]: https://www.mlflow.org/docs/latest/index.html

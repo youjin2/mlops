@@ -1,0 +1,10 @@
+name: pystock_data_features
+entry_points:
+  load_raw_data:
+    command: "python -m src.load_raw_data"
+  clean_validate_data:
+    command: "python -m src.check_verify_data"
+  feature_set_generation:
+    command: "python -m src.feature_set_generation"
+  main:
+    command: "python -m src.main"
