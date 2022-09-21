@@ -84,6 +84,64 @@ A model life cycle can undergo the following stages
 Detailed example can be found at [examples/04_managing_models_with_mlflow.ipynb]
 
 
+## Training Models with MLflow
+Now that you have created a docker stack workbench, let's run ML pipeline including train/evaluation/deploy steps.  
+Example ML project is composed as following structure. (see [examples/pystock-training])  
+```bash
+├── conda.yaml
+├── data
+│   ├── predictions
+│   │   └── test_predictions.csv
+│   └── training
+│       └── data.csv
+├── MLProject
+└── src
+    ├── evaluate_model.py
+    ├── __init__.py
+    ├── main.py
+    ├── register_model.py
+    └── train_model.py
+```
+
+`MLproject` defines the entire ML pieline as below.
+```yaml
+name: pystock_training
+conda_env: conda.yaml
+entry_points:
+  main:
+    data_file: path
+    command: "python -m src.main"
+  train_model:
+    command: "python -m src.train_model"
+  evaluate_model:
+    command: "python -m src.evaluate_model"
+  register_model:
+    command: "python -m src.register_model"
+```
+<!--- `main.py`: run -->
+<!--- `train_model.py`:-->
+<!--- `evaluate_model.py`:-->
+<!--- `register_mode.py`:-->
+
+
+Let's run docker-based ML pipeline with MLflow
+```bash
+$ cd mlflow/
+
+# run workbench
+$ docker-compose up -d
+
+# run ML pipeline
+$ docker exec -it mlflow-jupyter /bin/bash
+$ cd examples/pystock-training/
+$ mlflow run . --experiment-name example-pystock-training --env-manager local
+
+# once pipeline finished, go to MLflow UI (http://"your_ip_address":5000)
+# - Experiments tab: you can see that "example-pystock-training" is created (see each run components for more details)
+# - Models tab: you can see that "training-model-psystock" is created and "Version 1" deployed
+```
+
+
 ## References
 - [Machine Learning Engineering with MLflow]
 - [Mlflow official documentation]
@@ -95,5 +153,6 @@ Detailed example can be found at [examples/04_managing_models_with_mlflow.ipynb]
 [examples/02_docker_stack_example.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/02_docker_stack_example.ipynb
 [examples/03_experiment_management_in_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/03_experiment_management_in_mlflow.ipynb
 [examples/04_managing_models_with_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/04_managing_models_with_mlflow.ipynb
+[examples/pystock-training]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-training
 [Accelerating the Machine Learning Lifecycle with MLflow]: https://cs.stanford.edu/~matei/papers/2018/ieee_mlflow.pdf
 [Mlflow official documentation]: https://www.mlflow.org/docs/latest/index.html
