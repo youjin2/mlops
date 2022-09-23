@@ -28,6 +28,7 @@ def classification_metrics(df: pd.DataFrame):
     metrics["precision_score"] = precision_score(y_test, y_pred)
     metrics["recall_score"] = recall_score(y_test, y_pred)
     metrics["zero_one_loss"] = zero_one_loss(y_test, y_pred)
+
     return metrics
 
 

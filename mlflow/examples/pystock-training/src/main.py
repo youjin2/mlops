@@ -16,6 +16,7 @@ def _run(entrypoint, parameters={}, source_version=None, use_cache=True):
         parameters=parameters,
         env_manager="local"
     )
+
     return mlflow.tracking.MlflowClient().get_run(submitted_run.run_id)
 
 
@@ -24,16 +25,15 @@ def workflow():
     with mlflow.start_run(run_name="pystock-training"):
         mlflow.set_tag("mlflow.runName", "pystock-training")
         train_run = _run("train_model")
-        evaluate_run = _run("evaluate_model")
+        _run("evaluate_model")
 
         model_uri = os.path.join(train_run.info.artifact_uri, "model")
-        mlflow.register_model(
-            model_uri,
-            "training-model-psystock"
-        )
-        print(model_uri)
+        # mlflow.register_model(
+        #     model_uri,
+        #     "training-model-psystock"
+        # )
         # check passing model_uri to entrypoint
-        # _run("register_model")
+        _run("register_model", parameters={"model_uri": model_uri})
 
 
 if __name__ == "__main__":
