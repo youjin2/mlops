@@ -1,5 +1,4 @@
 ## MLflow practices
-
 Most of the examples are based on [Machine Learning Engineering with MLflow].
 
 
@@ -139,6 +138,26 @@ $ mlflow run . --experiment-name example-pystock-training --env-manager local
 # once pipeline finished, go to MLflow UI (http://"your_ip_address":5000)
 # - Experiments tab: you can see that "example-pystock-training" is created (see each run components for more details)
 # - Models tab: you can see that "training-model-psystock" is created and "Version 1" deployed
+```
+
+
+## Deployment and Inference with MLflow
+Setting up a batch inference job.  
+A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images.
+```bash
+$ docker build . -t pystock-inference-batch
+# no idea how to deal with max retring error communicating with mlflow server
+# [Errno -2] Name or service not known
+# https://github.com/mlflow/mlflow/issues/2682
+$ docker run -it --name mlflow-serving pystock-inference-batch /bin/bash
+$ docker run -it -v `pwd`/data/:/batch_scoring/data/ --name mlflow-serving pystock-inference-batch /bin/bash
+$ docker run -it -v `pwd`:/batch_scoring -v `pwd`/../../../data:/data/ -e MLFLOW_TRACKING_URI=http://mlflow:5000 --name mlflow-serving 52f756f2d6a0 /bin/bash
+$ docker run -it -v `pwd`:/batch_scoring -v `pwd`/../../../data:/data/ -e MLFLOW_TRACKING_URI=http://mlflow:5000 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e CHOWN_EXTRA=/data/ -e CHOWN_EXTRA_OPTS='-R' --name mlflow-serving 52f756f2d6a0 /bin/bash
+```
+
+Creating an API process for inference.
+```bash
+# TBD
 ```
 
 
