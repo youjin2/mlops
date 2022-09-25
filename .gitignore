@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# data & docker trash files
+.data/*
+.Trash-*
