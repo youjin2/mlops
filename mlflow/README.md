@@ -161,9 +161,10 @@ $ docker-compose run --rm batch-serving
 $ docker ps --format '{{ .ID }} {{ .Names }} {{ json .Networks }}'
 ```
 
-**ii) API server**
+**ii) API server**  
+see [examples/pystock-serving/pystock-inference-api]
 ```bash
-# TBD
+$ mlflow models serve -m "models:/training-model-pystock/Production" --env-manager local --host 0.0.0.0 --port 12000
 ```
 
 
@@ -180,5 +181,6 @@ $ docker ps --format '{{ .ID }} {{ .Names }} {{ json .Networks }}'
 [examples/04_managing_models_with_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/04_managing_models_with_mlflow.ipynb
 [examples/pystock-training]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-training
 [examples/pystock-serving/pystock-inference-batch]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-serving/pystock-inference-batch
+[examples/pystock-serving/pystock-inference-api]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-serving/pystock-inference-api
 [Accelerating the Machine Learning Lifecycle with MLflow]: https://cs.stanford.edu/~matei/papers/2018/ieee_mlflow.pdf
 [Mlflow official documentation]: https://www.mlflow.org/docs/latest/index.html
