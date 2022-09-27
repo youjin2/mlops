@@ -30,7 +30,7 @@ def workflow():
         model_uri = os.path.join(train_run.info.artifact_uri, "model")
         # mlflow.register_model(
         #     model_uri,
-        #     "training-model-psystock"
+        #     "training-model-pystock"
         # )
         # check passing model_uri to entrypoint
         _run("register_model", parameters={"model_uri": model_uri})

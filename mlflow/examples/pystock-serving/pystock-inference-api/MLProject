@@ -1,5 +1,0 @@
-name: pystock_batch_run
-conda_env: conda.yaml
-entry_points:
-  main:
-    command: "python -m src.batch_scoring"

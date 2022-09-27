@@ -7,7 +7,7 @@ if __name__ == "__main__":
     with mlflow.start_run(run_name="batch_scoring") as run:
 
         # retrieve the production model
-        model_name = "training-model-psystock"
+        model_name = "training-model-pystock"
         stage = 'Production'
         model = mlflow.pyfunc.load_model(
             model_uri=f"models:/{model_name}/{stage}"

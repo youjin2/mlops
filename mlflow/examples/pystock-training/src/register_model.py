@@ -8,5 +8,5 @@ if __name__ == "__main__":
         model_uri = run.data.params["model_uri"]
         result = mlflow.register_model(
             model_uri,
-            "training-model-psystock",
+            "training-model-pystock",
         )
