@@ -142,20 +142,23 @@ $ mlflow run . --experiment-name example-pystock-training --env-manager local
 
 
 ## Deployment and Inference with MLflow
-Setting up a batch inference job.  
-A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images.
+**i) Batch inference**  
+A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images. 
+(see [examples/pystock-serving/pystock-inference-batch])
 ```bash
-$ docker build . -t pystock-inference-batch
-# no idea how to deal with max retring error communicating with mlflow server
-# [Errno -2] Name or service not known
-# https://github.com/mlflow/mlflow/issues/2682
-$ docker run -it --name mlflow-serving pystock-inference-batch /bin/bash
-$ docker run -it -v `pwd`/data/:/batch_scoring/data/ --name mlflow-serving pystock-inference-batch /bin/bash
-$ docker run -it -v `pwd`:/batch_scoring -v `pwd`/../../../data:/data/ -e MLFLOW_TRACKING_URI=http://mlflow:5000 --name mlflow-serving 52f756f2d6a0 /bin/bash
-$ docker run -it -v `pwd`:/batch_scoring -v `pwd`/../../../data:/data/ -e MLFLOW_TRACKING_URI=http://mlflow:5000 -e CHOWN_HOME=yes -e CHOWN_HOME_OPTS='-R' -e CHOWN_EXTRA=/data/ -e CHOWN_EXTRA_OPTS='-R' --name mlflow-serving 52f756f2d6a0 /bin/bash
+# first, run mlflow-server with our docker stack workbench 
+$ cd mlflow/
+$ docker-compose  up -d mlflow
+
+# create "pystock-inference-batch" docker iamges
+$ cd mlflow/examples/pystock-serving/pystock-inference-batch/
+$ docker-compose build
+
+# run batch inference pipeline
+$ docker-compose run --rm batch-serving
 ```
 
-Creating an API process for inference.
+**ii) API server**
 ```bash
 # TBD
 ```
@@ -173,5 +176,6 @@ Creating an API process for inference.
 [examples/03_experiment_management_in_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/03_experiment_management_in_mlflow.ipynb
 [examples/04_managing_models_with_mlflow.ipynb]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/04_managing_models_with_mlflow.ipynb
 [examples/pystock-training]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-training
+[examples/pystock-serving/pystock-inference-batch]: https://github.com/youjin2/mlops/tree/main/mlflow/examples/pystock-serving/pystock-inference-batch
 [Accelerating the Machine Learning Lifecycle with MLflow]: https://cs.stanford.edu/~matei/papers/2018/ieee_mlflow.pdf
 [Mlflow official documentation]: https://www.mlflow.org/docs/latest/index.html

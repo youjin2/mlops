@@ -1,0 +1,21 @@
+version: "3"
+services:
+  batch-serving:
+    build:
+      context: .
+    image: pystock-inference-batch
+    container_name: mlflow-serving
+    environment:
+      MLFLOW_TRACKING_URI: "http://mlflow:5000"
+    volumes:
+      - ./data/:/batch_scoring/data/
+      - ../../../data/:/data/
+    networks:
+      - mlflow_default
+    stdin_open: true
+    tty: true
+
+# connect to docker stack workbench network
+networks:
+  mlflow_default:
+    external: true
