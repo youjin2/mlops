@@ -156,6 +156,9 @@ $ docker-compose build
 
 # run batch inference pipeline
 $ docker-compose run --rm batch-serving
+
+# NOTE: container's network can be identified by
+$ docker ps --format '{{ .ID }} {{ .Names }} {{ json .Networks }}'
 ```
 
 **ii) API server**
