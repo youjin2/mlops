@@ -150,21 +150,38 @@ A docker image provides you with a mechanism to run your batch scoring job in an
 $ cd mlflow/
 $ docker-compose  up -d mlflow
 
-# create "pystock-inference-batch" docker iamges
+# create "pystock-inference-batch" docker image
 $ cd mlflow/examples/pystock-serving/pystock-inference-batch/
 $ docker-compose build
 
 # run batch inference pipeline
+# NOTE: mlflow-serving container shares a existings network with our workbench
 $ docker-compose run --rm batch-serving
 
-# NOTE: container's network can be identified by
+# FYI: container's network can be identified by
 $ docker ps --format '{{ .ID }} {{ .Names }} {{ json .Networks }}'
 ```
 
 **ii) API server**  
 see [examples/pystock-serving/pystock-inference-api]
 ```bash
+# first, run mlflow-server with our docker stack workbench 
+$ cd mlflow/
+$ docker-compose  up -d mlflow
+
+# create "pystock-inference-api" docker image
+$ cd mlflow/examples/pystock-serving/pystock-inference-api/
+$ docker-compose build
+
+# run api server with the Production model
+$ docker-compose up -d
 $ mlflow models serve -m "models:/training-model-pystock/Production" --env-manager local --host 0.0.0.0 --port 12000
+
+# run command below on your local machine and check the API response
+# expected output: [0.8296052813529968, 0.8817128539085388] (depends on your model)
+$ curl http://127.0.0.1:12000/invocations -H 'Content-Type: application/json' -d '{"data":[[1,1,1,1,0,1,1,1,0,1,1,1,0,0], [0,0,0,0,0,0,0,0,0,0,0,0,0,0]] }'
+# or
+$ curl http://0.0.0.0:12000/invocations -H 'Content-Type: application/json' -d '{"data":[[1,1,1,1,0,1,1,1,0,1,1,1,0,0], [0,0,0,0,0,0,0,0,0,0,0,0,0,0]] }'
 ```
 
 
