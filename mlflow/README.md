@@ -117,11 +117,6 @@ entry_points:
   register_model:
     command: "python -m src.register_model"
 ```
-<!--- `main.py`: run -->
-<!--- `train_model.py`:-->
-<!--- `evaluate_model.py`:-->
-<!--- `register_mode.py`:-->
-
 
 Let's run docker-based ML pipeline with MLflow
 ```bash
@@ -143,7 +138,7 @@ $ mlflow run . --experiment-name example-pystock-training --env-manager local
 
 ## Deployment and Inference with MLflow
 **i) Batch inference**  
-A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images. 
+A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images.  
 (see [examples/pystock-serving/pystock-inference-batch])
 ```bash
 # first, run mlflow-server with our docker stack workbench 
@@ -163,7 +158,8 @@ $ docker ps --format '{{ .ID }} {{ .Names }} {{ json .Networks }}'
 ```
 
 **ii) API server**  
-see [examples/pystock-serving/pystock-inference-api]
+Setting up an dockerized API system by relying on the MLflow built-in REST API environment.  
+(see [examples/pystock-serving/pystock-inference-api])
 ```bash
 # first, run mlflow-server with our docker stack workbench 
 $ cd mlflow/
