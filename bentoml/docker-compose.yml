@@ -7,14 +7,11 @@ services:
     container_name: bentoml-serving
     ports:
       - "${JUPYTER_PORT}:8888"
-    #environment:
-    #  CHOWN_HOME: "yes"
-    #  CHOWN_HOME_OPTS: '-R'
-    #  CHOWN_EXTRA: ${JUPYTER_CHOWN_EXTRA}
-    #  CHOWN_EXTRA_OPTS: '-R'
-    #  JUPYTER_TOKEN: ""
+    environment:
+      BENTOML_HOME: /${BENTOML_HOME}
     volumes:
       - ./:/opt/project
+      - ./${BENTOML_HOME}:/${BENTOML_HOME}
     stdin_open: true
     tty: true
     command: >

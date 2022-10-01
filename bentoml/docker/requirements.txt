@@ -11,3 +11,4 @@ hyperopt==0.2.7
 matplotlib
 cloudpickle
 scipy
+bentoml==1.0.6
