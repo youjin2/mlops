@@ -1,0 +1,17 @@
+name: iris_clf
+version: rlakk2cdccseyasc
+module: bentoml.sklearn
+labels: {}
+options: {}
+metadata: {}
+context:
+  framework_name: sklearn
+  framework_versions:
+    scikit-learn: 1.1.2
+  bentoml_version: 1.0.6
+  python_version: 3.10.6
+signatures:
+  predict:
+    batchable: false
+api_version: v1
+creation_time: '2022-10-03T11:43:04.477569+00:00'
