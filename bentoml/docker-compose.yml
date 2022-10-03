@@ -5,8 +5,11 @@ services:
       context: ./docker/
     image: ${JUPYTER_IMAGE_NAME}:${VERSION}
     container_name: bentoml-serving
+    #user: "${UID}:${GID}"
+    #user: "${UID}"
     ports:
       - "${JUPYTER_PORT}:8888"
+      - "${BENTOML_SERVE_PORT}:3000"
     environment:
       BENTOML_HOME: /${BENTOML_HOME}
     volumes:
