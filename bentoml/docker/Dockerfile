@@ -11,4 +11,7 @@ RUN apt-get update --yes && \
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+COPY install.sh .
+##RUN ./install.sh
+
 WORKDIR /opt/project
