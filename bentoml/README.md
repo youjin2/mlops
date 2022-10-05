@@ -87,8 +87,8 @@ $ curl -X POST \
 ```
 
 
-## 
-
+## Practical examples
+[BentoML examples: tensorflow2 keras]
 
 ## Custom Python model & Model runner
 
@@ -104,5 +104,6 @@ $ curl -X POST \
 [1.0.0 Migration Guide]: https://docs.bentoml.org/en/latest/guides/migration.html
 [Bentoml basic examples]: https://zzsza.github.io/mlops/2021/04/18/bentoml-basic/
 [01_introduction_to_bentoml.ipynb]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/01_introduction_to_bentoml.ipynb
+[BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76
 
