@@ -1,4 +1,5 @@
-FROM condaforge/miniforge3
+#FROM condaforge/miniforge3
+FROM continuumio/miniconda3 
 
 RUN apt-get update --yes && \
     apt-get install htop --yes && \
@@ -8,10 +9,14 @@ RUN apt-get update --yes && \
     apt-get install libpq-dev --yes && \
     apt-get install python-dev --yes
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN echo "alias ll='ls -alF'" >> ~/.bashrc && \
+    echo "alias la='ls -A'" >> ~/.bashrc && \
+    echo "alias l='ls -CF'" >> ~/.bashrc
 
 COPY install.sh .
-##RUN ./install.sh
+RUN ./install.sh
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 WORKDIR /opt/project
