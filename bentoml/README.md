@@ -88,7 +88,17 @@ $ curl -X POST \
 
 
 ## Practical examples
-[BentoML examples: tensorflow2 keras]
+First, train mnist classifier with tensorflow and save the model with BentoML. (see [02_tensorflow_mnist_pipeline.ipynb])  
+In that notebook, you can also check that the model is loaded well and prediction API has no problem in native Python shell.  
+Now, create ML service code `service.py` file. (see [examples/tensorflow_serving/service.py])  
+```bash
+# run below in a container
+$ bentoml serve service:svc --reload
+
+# run below in a local machine
+$ curl -H "Content-Type: multipart/form-data" -F'fileobj=@samples/0.png;type=image/png' http://127.0.0.1:12000/predict_image
+```
+
 
 ## Custom Python model & Model runner
 
@@ -96,14 +106,17 @@ $ curl -X POST \
 
 ## References
 - [Tutorial: Intro to BentoML]
-- [Bentoml basic examples]
+- [BentoML examples: tensorflow2 keras]
+- [Bentoml basic tutorial (Korean)]
 
 
 
 [Tutorial: Intro to BentoML]: https://docs.bentoml.org/en/latest/tutorial.html
 [1.0.0 Migration Guide]: https://docs.bentoml.org/en/latest/guides/migration.html
-[Bentoml basic examples]: https://zzsza.github.io/mlops/2021/04/18/bentoml-basic/
+[Bentoml basic tutorial (Korean)]: https://zzsza.github.io/mlops/2021/04/18/bentoml-basic/
 [01_introduction_to_bentoml.ipynb]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/01_introduction_to_bentoml.ipynb
+[02_tensorflow_mnist_pipeline.ipynb]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/02_tensorflow_mnist_pipeline.ipynb
+[examples/tensorflow_serving/service.py]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/tensorflow_serving/service.py
 [BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76
 
