@@ -89,18 +89,103 @@ $ curl -X POST \
 
 ## Practical examples
 First, train mnist classifier with tensorflow and save the model with BentoML. (see [02_tensorflow_mnist_pipeline.ipynb])  
-In that notebook, you can also check that the model is loaded well and prediction API has no problem in native Python shell.  
-Now, create ML service code `service.py` file. (see [examples/tensorflow_serving/service.py])  
-```bash
-# run below in a container
-$ bentoml serve service:svc --reload
+In that notebook, you can also check that the model is loaded well and prediction API has no problem in native Python shell.
 
-# run below in a local machine
+After training and saving the model finished, create ML service code `service.py` file.  
+See [examples/tensorflow_serving/service.py] for detailed code examples.  
+Now launch the API server by running command below on your docker container.  
+(`bentofile.yaml` is not required at this stage)
+```bash
+$ cd /examples/tensorflow_serving/
+
+# NOTE: reload automatically api sever when code changes detected
+$ bentoml serve service:svc --reload
+```
+
+On your local machine, you can get the prediction result by 
+```bash
+# use "predict_image" API
 $ curl -H "Content-Type: multipart/form-data" -F'fileobj=@samples/0.png;type=image/png' http://127.0.0.1:12000/predict_image
+```
+or, by using the native Python shell.
+```python
+import requests
+
+from PIL import Image
+import numpy as np
+
+
+img = Image.open("./samples/0.png")
+arr = np.array(img)
+
+# use "predict_ndarray" API
+response = requests.post(
+    # for running request on local machine
+    "http://127.0.0.1:12000/predict_ndarray",
+    # for running request on container
+    # "http://127.0.0.1:3000/predict_ndarray",
+    json=arr.tolist()
+)
+
+print(response.status_code)
+print(response.content)
+```
+
+TODO: benchmark with `locust`
+```bash
+$ locust --headless -u 100 -r 1000 --run-time 10m --host http://127.0.0.1:3000
+```
+
+Now, write `bentofile.yaml` to build Bento for deployment. (see `./examples/tensorflow_serving/bentofile.yaml`)  
+Run commands below (on host or container) and check that `${BENTOML_HOME}/tensorflow_mnist_demo` created.
+```bash
+$ cd ./examples/tensorflow_serving/
+$ bento build
+
+$ tree ${BENTOML_HOME}
+
+# outputs:
+bentos/
+└── tensorflow_mnist_demo
+    ├── 3nceqwchcoi6kasc
+    │   ├── apis
+    │   ├── env
+    │   │   ├── docker
+    │   │   └── python
+    │   ├── models
+    │   │   └── tensorflow_mnist
+    │   │       └── q7dqa6cg2cyyiasc
+    │   │           ├── assets
+    │   │           └── variables
+    │   └── src
+```
+
+After building the bento finished, run command below on container to serve the production model.  
+```
+$ bentoml serve tensorflow_mnist_demo:latest --production
+```
+
+You can also containerize the api server with:
+```bash
+# project home (not ${BENTOML_HOME})
+$ cd bentoml/
+$ bentoml containerize tensorflow_mnist_demo:latest
+
+# if "BENTOML_HOME" environment variable not identified yet, you may see below error message.
+# Error: [bentoml-cli] `containerize` failed: no Bentos with name 'tensorflow_mnist_demo' exist in BentoML store <osfs '/home/youjin2/bentoml/bentos'>
+# then, set environment variable and run `bento containerize` again.
+$ export BENTOML_HOME=./bentoml/
+
+# launch containerized api server
+$ docker run --rm -p 12000:3000 tensorflow_mnist_demo:3nceqwchcoi6kasc serve --production
 ```
 
 
+
+
 ## Custom Python model & Model runner
+
+
 
 
 
