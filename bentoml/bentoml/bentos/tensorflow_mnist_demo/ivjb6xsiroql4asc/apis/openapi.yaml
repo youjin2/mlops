@@ -1,0 +1,268 @@
+components:
+  schemas:
+    InternalServerError:
+      description: Internal Server Error
+      properties:
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - msg
+      - type
+      title: InternalServerError
+      type: object
+    InvalidArgument:
+      description: Bad Request
+      properties:
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - msg
+      - type
+      title: InvalidArgument
+      type: object
+    NotFound:
+      description: Not Found
+      properties:
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+      required:
+      - msg
+      - type
+      title: NotFound
+      type: object
+info:
+  contact:
+    email: contact@bentoml.ai
+    name: BentoML Team
+  description: "# tensorflow_mnist_demo:None\n\n[![pypi_status](https://img.shields.io/badge/BentoML-1.0.6-informational)](https://pypi.org/project/BentoML)\n\
+    [![documentation_status](https://readthedocs.org/projects/bentoml/badge/?version=latest)](https://docs.bentoml.org/)\n\
+    [![join_slack](https://badgen.net/badge/Join/BentoML%20Slack/cyan?icon=slack)](https://l.bentoml.com/join-slack-swagger)\n\
+    [![BentoML GitHub Repo](https://img.shields.io/github/stars/bentoml/bentoml?style=social)](https://github.com/bentoml/BentoML)\n\
+    [![Twitter Follow](https://img.shields.io/twitter/follow/bentomlai?label=Follow%20BentoML&style=social)](https://twitter.com/bentomlai)\n\
+    \nThis is a Machine Learning Service created with BentoML.\n| InferenceAPI | Input\
+    \ | Output |\n| ------------ | ----- | ------ |\n| POST [`/predict_ndarray`](#operations-Service_APIs-tensorflow_mnist_demo__predict_ndarray)\
+    \ | NumpyNdarray | NumpyNdarray |\n| POST [`/predict_image`](#operations-Service_APIs-tensorflow_mnist_demo__predict_image)\
+    \ | Image | NumpyNdarray |\n\n\n\n\n## Help\n\n* [\U0001F4D6 Documentation](https://docs.bentoml.org/en/latest/):\
+    \ Learn how to use BentoML.\n* [\U0001F4AC Community](https://l.bentoml.com/join-slack-swagger):\
+    \ Join the BentoML Slack community.\n* [\U0001F41B GitHub Issues](https://github.com/bentoml/BentoML/issues):\
+    \ Report bugs and feature requests.\n* Tip: you can also [customize this README](https://docs.bentoml.org/en/latest/concepts/bento.html#description).\n"
+  summary: A ML Service created with BentoML
+  title: tensorflow_mnist_demo
+  version: None
+openapi: 3.0.2
+paths:
+  /healthz:
+    get:
+      description: Health check endpoint. Expecting an empty response with status
+        code <code>200</code> when the service is in health state. The <code>/healthz</code>
+        endpoint is <b>deprecated</b>. (since Kubernetes v1.16)
+      responses:
+        '200':
+          description: Successful Response
+      tags:
+      - Infrastructure
+  /livez:
+    get:
+      description: Health check endpoint for Kubernetes. Healthy endpoint responses
+        with a <code>200</code> OK status.
+      responses:
+        '200':
+          description: Successful Response
+      tags:
+      - Infrastructure
+  /metrics:
+    get:
+      description: Prometheus metrics endpoint. The <code>/metrics</code> responses
+        with a <code>200</code>. The output can then be used by a Prometheus sidecar
+        to scrape the metrics of the service.
+      responses:
+        '200':
+          description: Successful Response
+      tags:
+      - Infrastructure
+  /predict_image:
+    post:
+      description: ''
+      operationId: tensorflow_mnist_demo__predict_image
+      requestBody:
+        content:
+          application/postscript:
+            schema:
+              format: binary
+              type: string
+          image/bmp:
+            schema:
+              format: binary
+              type: string
+          image/gif:
+            schema:
+              format: binary
+              type: string
+          image/icns:
+            schema:
+              format: binary
+              type: string
+          image/jp2:
+            schema:
+              format: binary
+              type: string
+          image/jpeg:
+            schema:
+              format: binary
+              type: string
+          image/mpo:
+            schema:
+              format: binary
+              type: string
+          image/png:
+            schema:
+              format: binary
+              type: string
+          image/sgi:
+            schema:
+              format: binary
+              type: string
+          image/tiff:
+            schema:
+              format: binary
+              type: string
+          image/vnd.adobe.photoshop:
+            schema:
+              format: binary
+              type: string
+          image/webp:
+            schema:
+              format: binary
+              type: string
+          image/x-icon:
+            schema:
+              format: binary
+              type: string
+          image/x-pcx:
+            schema:
+              format: binary
+              type: string
+          image/x-portable-anymap:
+            schema:
+              format: binary
+              type: string
+          image/x-tga:
+            schema:
+              format: binary
+              type: string
+          image/xbm:
+            schema:
+              format: binary
+              type: string
+          image/xpm:
+            schema:
+              format: binary
+              type: string
+          video/mpeg:
+            schema:
+              format: binary
+              type: string
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  type: integer
+                nullable: true
+                type: array
+          description: Successful Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidArgument'
+          description: Bad Request
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+          description: Not Found
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+          description: Internal Server Error
+      summary: "InferenceAPI(Image \u2192 NumpyNdarray)"
+      tags:
+      - Service APIs
+  /predict_ndarray:
+    post:
+      description: ''
+      operationId: tensorflow_mnist_demo__predict_ndarray
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                type: integer
+              nullable: true
+              type: array
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  type: integer
+                nullable: true
+                type: array
+          description: Successful Response
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidArgument'
+          description: Bad Request
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+          description: Not Found
+        500:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+          description: Internal Server Error
+      summary: "InferenceAPI(NumpyNdarray \u2192 NumpyNdarray)"
+      tags:
+      - Service APIs
+  /readyz:
+    get:
+      description: A <code>200</code> OK status from <code>/readyz</code> endpoint
+        indicated the service is ready to accept traffic. From that point and onward,
+        Kubernetes will use <code>/livez</code> endpoint to perform periodic health
+        checks.
+      responses:
+        '200':
+          description: Successful Response
+      tags:
+      - Infrastructure
+tags:
+- description: BentoML Service API endpoints for inference.
+  name: Service APIs
+- description: Common infrastructure endpoints for observability.
+  name: Infrastructure

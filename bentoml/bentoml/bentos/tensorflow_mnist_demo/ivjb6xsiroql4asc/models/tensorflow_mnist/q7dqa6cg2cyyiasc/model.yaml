@@ -1,0 +1,21 @@
+name: tensorflow_mnist
+version: q7dqa6cg2cyyiasc
+module: bentoml.tensorflow
+labels: {}
+options:
+  partial_kwargs: {}
+metadata: {}
+context:
+  framework_name: tensorflow
+  framework_versions:
+    tensorflow: 2.4.1
+  bentoml_version: 1.0.6
+  python_version: 3.9.12
+signatures:
+  __call__:
+    batchable: true
+    batch_dim:
+    - 0
+    - 0
+api_version: v1
+creation_time: '2022-10-08T06:14:56.346524+00:00'

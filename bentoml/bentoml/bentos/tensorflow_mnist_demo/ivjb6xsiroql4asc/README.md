@@ -169,9 +169,6 @@ You can also containerize the api server with:
 ```bash
 # project home (not ${BENTOML_HOME})
 $ cd bentoml/
-# requirements: 
-# - local docker envorionment
-# - bentoml build (on container or local) to create ${BENTOML_HOME}/bentos/tensorflow_mnist_demo/
 $ bentoml containerize tensorflow_mnist_demo:latest
 
 # if "BENTOML_HOME" environment variable not identified yet, you may see below error message.
@@ -179,15 +176,8 @@ $ bentoml containerize tensorflow_mnist_demo:latest
 # then, set environment variable and run `bento containerize` again.
 $ export BENTOML_HOME=./bentoml/
 
-# check image build status
-$ docker images
-
-outputs: 
-REPOSITORY                   TAG                IMAGE ID       CREATED              SIZE
-tensorflow_mnist_demo        ivjb6xsiroql4asc   9e5299fed55d   About a minute ago   2.05GB
-
 # launch containerized api server
-$ docker run --rm -p 12000:3000 tensorflow_mnist_demo:ivjb6xsiroql4asc serve --production
+$ docker run --rm -p 12000:3000 tensorflow_mnist_demo:3nceqwchcoi6kasc serve --production
 ```
 
 
