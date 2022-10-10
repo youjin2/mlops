@@ -1,3 +1,6 @@
+## Goal
+Serve custom LDA classifier model via `bentoml.picklable_model`.
+
 ## Train & Save custom python model
 Most pure python code based ML model implementation should work with `bentoml.picklable_model` out-of-the-box.
 ```bash
