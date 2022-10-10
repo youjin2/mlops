@@ -191,16 +191,17 @@ $ docker run --rm -p 12000:3000 tensorflow_mnist_demo:ivjb6xsiroql4asc serve --p
 ```
 
 
-
-
 ## Custom Python model & Model runner
-
+BentoML also supports various customization features, including custom pickable python model, custom runner, etc.  
+See below examples:
+- [custom python model]
 
 
 
 
 ## References
 - [Tutorial: Intro to BentoML]
+- [BentoML examples]
 - [BentoML examples: tensorflow2 keras]
 - [Bentoml basic tutorial (Korean)]
 
@@ -212,6 +213,8 @@ $ docker run --rm -p 12000:3000 tensorflow_mnist_demo:ivjb6xsiroql4asc serve --p
 [01_introduction_to_bentoml.ipynb]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/01_introduction_to_bentoml.ipynb
 [02_tensorflow_mnist_pipeline.ipynb]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/02_tensorflow_mnist_pipeline.ipynb
 [examples/tensorflow_serving/service.py]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/tensorflow_serving/service.py
+[custom python model]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_python_model
+[BentoML examples]: https://github.com/bentoml/BentoML/tree/main/examples
 [BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76
 
