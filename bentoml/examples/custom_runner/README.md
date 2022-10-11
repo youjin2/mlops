@@ -14,6 +14,10 @@ $ ./install.sh
 
 
 ## BentoML Serve
+```bash
+$ curl -X 'POST' 'http://localhost:12000/invocation' -H 'accept: image/jpeg' -H 'Content-Type: image/jpeg' --data-binary '@data/bus.jpg'
+$ curl -X 'POST' 'http://localhost:12000/render' -H 'accept: image/jpeg' -H 'Content-Type: image/jpeg' --data-binary '@data/bus.jpg' --output './output/bus.jpeg'
+```
 
 
 ## Containerize
