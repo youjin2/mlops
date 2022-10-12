@@ -1,5 +1,4 @@
 import torch
-import pandas as pd
 
 import bentoml
 from bentoml.io import Image
@@ -49,13 +48,7 @@ svc = bentoml.Service("yolo_v5_demo", runners=[yolo_v5_runner])
 @svc.api(input=Image(), output=PandasDataFrame())
 async def invocation(input_img):
     batch_ret = await yolo_v5_runner.inference.async_run([input_img])
-    print("====="*10)
-    print(type(batch_ret[0]))
-    print(type(PandasDataFrame.from_sample(batch_ret[0])))
-    print(batch_ret[0].head())
-    print("====="*10)
-    return PandasDataFrame.from_sample(batch_ret[0])
-    # return batch_ret[0]
+    return batch_ret[0]
 
 
 @svc.api(input=Image(), output=Image())
