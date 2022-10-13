@@ -24,13 +24,7 @@ $ ./examples/custom_runner/
 $ bentoml serve service.py:svc --host 0.0.0.0 --port 3000 --reload
 ```
 
-Currently, api request for `pd.DataFrame` output failed because of type mis-matching error.  
-I think [bentoml/_internal/io_descriptors/pandas.py#L513] should be fixed like below.  
-```python
-if LazyType["ext.PdDataFrame"]("pd.DataFrame").isinstance(dataframe):
-```
-There's an issue report ([BentoML/issues/2219]) related to above problem, but have no idea why [BentoML/pull/2220] was merged with `if not LazyTpye ...`.
-
+Test prediction request.
 ```bash
 # pd.DataFrame output
 $ curl -X 'POST' \
@@ -47,6 +41,20 @@ $ curl -X 'POST' \
     --data-binary '@data/bus.jpg' \
     --output './output/bus.jpeg'
 ```
+
+**[NOTE]**  
+Currently, requesting API for `pd.DataFrame` output like below fails because of mis-matching type error.  
+```python
+@svc.api(input=Image(), output=PandasDataFrame())
+async def invocation(input_img):
+    batch_ret = await yolo_v5_runner.inference.async_run([input_img])
+    return batch_ret[0]
+```
+I think [bentoml/_internal/io_descriptors/pandas.py#L513] should be fixed like below.  
+```python
+if not LazyType["ext.PandasDataFrame"]("pandas.DataFrame").isinstance(dataframe):
+```
+But have no idea why `LazyLoader` does not overwrite `import pandas as pd` with bentoml's `ext.PdDataFrame` type.
 
 
 ## Containerize

@@ -5,6 +5,10 @@ from bentoml.io import Image
 from bentoml.io import PandasDataFrame
 
 
+# overwrite pandas with bentoml type
+pd = bentoml._internal.utils.LazyLoader("pd", globals(), "pandas")
+
+
 class Yolov5Runnable(bentoml.Runnable):
     SUPPORTED_RESOURCES = ("nvidia.com/gpu", "cpu")
     SUPPORTS_CPU_MULTI_THREADING = True
@@ -48,7 +52,8 @@ svc = bentoml.Service("yolo_v5_demo", runners=[yolo_v5_runner])
 @svc.api(input=Image(), output=PandasDataFrame())
 async def invocation(input_img):
     batch_ret = await yolo_v5_runner.inference.async_run([input_img])
-    return batch_ret[0]
+    return pd.DataFrame(batch_ret[0])
+    # return batch_ret[0]
 
 
 @svc.api(input=Image(), output=Image())
