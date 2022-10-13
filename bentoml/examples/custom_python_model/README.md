@@ -27,7 +27,7 @@ $ cd examples/custom_python_model/
 # build bento
 $ bentoml build
 
-# build docker container
+# build docker container (you may have to set the "BENTOML_HOME" environment variable)
 $ bentoml containerize iris_classifier_lda:latest
 
 # run containerized api server

@@ -25,6 +25,7 @@ $ bentoml serve service.py:svc --host 0.0.0.0 --port 3000 --reload
 ```
 
 Test prediction request.
+<a name="api-request"></a>
 ```bash
 # pd.DataFrame output
 $ curl -X 'POST' \
@@ -58,6 +59,28 @@ But have no idea why `LazyLoader` does not overwrite `import pandas as pd` with 
 
 
 ## Containerize
+Build and launch the containerized API server with:
+```bash
+$ ./examples/custom_runner/
+
+# build bento (local or container)
+$ bentoml build
+
+# build container image (local)
+$ export BENTOML_HOME=../../bentoml/
+$ bentoml containerize yolo_v5_demo:latest
+
+# check image built status
+$ docker images
+
+output: 
+REPOSITORY                   TAG                IMAGE ID       CREATED              SIZE
+yolo_v5_demo                 ebhb2dslasisiasc   0cc96e8dd150   About a minute ago   2.8GB
+
+# serving with docker conatiner
+$ docker run --rm -p 12000:3000 yolo_v5_demo:ebhb2dslasisiasc serve --production
+```
+After containerized API server created, run [this](#api-request) to get a prediction response.
 
 
 ## References
