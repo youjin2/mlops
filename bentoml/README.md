@@ -196,6 +196,7 @@ BentoML also supports various customization features, including custom pickable 
 See below examples:
 - [custom python model]
 - [custom runner]
+- [custom model runner]
 
 
 
@@ -216,6 +217,7 @@ See below examples:
 [examples/tensorflow_serving/service.py]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/tensorflow_serving/service.py
 [custom python model]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_python_model
 [custom runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_runner
+[custom model runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_model_runner
 [BentoML examples]: https://github.com/bentoml/BentoML/tree/main/examples
 [BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76

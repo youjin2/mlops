@@ -12,8 +12,16 @@ $ python train.py
 
 ## BentoML Server
 ```bash
+$ cd examples/custom_model_runner/
 
+# on container, run an api server with:
+$ bentoml serve service:svc --host 0.0.0.0 --port 3000 --reload
+
+# run command below on local machine
 $ curl -F 'image=@samples/0.png' http://127.0.0.1:12000/predict
+
+# start a production server
+$ bentoml serve --production
 ```
 
 
