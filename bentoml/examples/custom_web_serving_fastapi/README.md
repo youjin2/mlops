@@ -1,8 +1,10 @@
 ## Goal
+Customize the serving API with `fastapi` and use `pydantic` validation to check the data type of given parameters are passed appropriately.  
+You can see that how `fastapi` supports the automatic validation and type conversion using `pydantic` classes and how `bentoml` automatically converts the input data type required to pass to the model.
 
 
 ## Install dependencies
-You may install `fastapi`
+You may have to install additional dependencies.
 ```bash
 $ cd examples/custom_web_serving_fastapi
 
@@ -17,17 +19,37 @@ $ cd examples/custom_web_serving_fastapi
 
 # after runnning the training script, check out that the model saved at "${BENTOML_HOME}/models/iris_clf_with_feature_names/" successfully.
 $ python train.py
+
+# check the saved models
+$ bentoml models list
+
+outputs:
+ Tag                                           Module                   Size       Creation Time
+ iris_clf_with_feature_names:bv6dn4cnicezyasc  bentoml.sklearn          6.34 KiB   2022-10-16 19:48:21
 ```
 
 
 ## BentoML Serve
 ```bash
+$ cd examples/custom_web_serving_fastapi
+
+# launch api server
+$ bentoml serve service:svc --host 0.0.0.0 --port 3000 --reload
 
 # "/predict_bentoml" endpoint:
 $ curl -X POST -H "content-type: application/json" --data '{"sepal_len": 7.2, "sepal_width": 3.2, "petal_len": 5.2, "petal_width": 2.2}' http://127.0.0.1:12000/predict_bentoml
 
+# "/predict_bentoml" endpoint with mis-specified data type:
+$ curl -X POST -H "content-type: application/json" --data '{"sepal_len": "7.2", "sepal_width": "3.2", "petal_len": "5.2", "petal_width": "2.2"}' http://127.0.0.1:12000/predict_bentoml
+
+# "/predict_bentoml_wo_pydantic" endpoint (type conversion is required):
+$ curl -X POST -H "content-type: application/json" --data '{"sepal_len": "7.2", "sepal_width": "3.2", "petal_len": "5.2", "petal_width": "2.2"}' http://127.0.0.1:12000/predict_bentoml_wo_pydantic
+
 # "/predict_fastapi" endpoint:
 $ curl -X POST -H "content-type: application/json" --data '{"sepal_len": 6.2, "sepal_width": 3.2, "petal_len": 5.2, "petal_width": 2.2}' http://127.0.0.1:12000/predict_fastapi
+
+# "/predict_fastapi" endpoint with mis-specified data type:
+$ curl -X POST -H "content-type: application/json" --data '{"sepal_len": "7.2", "sepal_width": "3.2", "petal_len": "5.2", "petal_width": "2.2"}' http://127.0.0.1:12000/predict_fastapi
 
 # "/predict_fastapi_async" endpoint:
 $ curl -X POST -H "content-type: application/json" --data '{"sepal_len": 6.2, "sepal_width": 3.2, "petal_len": 5.2, "petal_width": 2.2}' http://127.0.0.1:12000/predict_fastapi_async

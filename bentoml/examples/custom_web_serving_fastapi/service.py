@@ -27,6 +27,14 @@ async def predict_bentoml(input_data: IrisFeatures) -> np.ndarray:
     return await iris_clf_runner.predict.async_run(input_df)
 
 
+@svc.api(input=JSON(), output=NumpyNdarray())
+async def predict_bentoml_wo_pydantic(input_data: IrisFeatures) -> np.ndarray:
+    input_df = pd.DataFrame([input_data])
+    for c in input_df.columns:
+        input_df[c] = input_df[c].astype("float")
+    return await iris_clf_runner.predict.async_run(input_df)
+
+
 fastapi_app = FastAPI()
 svc.mount_asgi_app(fastapi_app)
 

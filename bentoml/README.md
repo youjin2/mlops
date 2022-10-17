@@ -197,6 +197,7 @@ See below examples:
 - [custom python model]
 - [custom runner]
 - [custom model runner]
+- [custom web serving fastapi]
 
 
 
@@ -218,6 +219,7 @@ See below examples:
 [custom python model]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_python_model
 [custom runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_runner
 [custom model runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_model_runner
+[custom web serving fastapi]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_web_serving_fastapi
 [BentoML examples]: https://github.com/bentoml/BentoML/tree/main/examples
 [BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76
