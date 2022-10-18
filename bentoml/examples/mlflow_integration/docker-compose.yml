@@ -1,0 +1,70 @@
+version: "3"
+services:
+  jupyter:
+    build:
+      context: ./docker/jupyter
+      args:
+        - MLFLOW_VERSION=${MLFLOW_VERSION}
+        - MLFLOW_ARTIFACT_STORE=/${MLFLOW_ARTIFACT_STORE}
+    image: ${IMAGE_OWNER}/${REPO_SLUG}/${JUPYTER_IMAGE_NAME}:${VERSION}
+    container_name: mlflow-jupyter
+    ports:
+      - "${JUPYTER_PORT}:8888"
+    depends_on:
+      - mlflow
+    environment:
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI}
+      CHOWN_HOME: "yes"
+      CHOWN_HOME_OPTS: '-R'
+      CHOWN_EXTRA: ${JUPYTER_CHOWN_EXTRA}
+      CHOWN_EXTRA_OPTS: '-R'
+      JUPYTER_TOKEN: ""
+    volumes:
+      - ./:/opt/project
+      - ./${MLFLOW_ARTIFACT_STORE}:/${MLFLOW_ARTIFACT_STORE}
+    stdin_open: true
+    tty: true
+    command: >
+      bash -c "
+      cd / && jupyter notebook --no-browser --allow-root --ip='*' --port=8888 --NotebookApp.password='' --NotebookApp.token=''
+      "
+
+  mlflow:
+    build:
+      context: ./docker/mlflow
+      args:
+        - MLFLOW_VERSION=${MLFLOW_VERSION}
+    image: ${IMAGE_OWNER}/${REPO_SLUG}/${MLFLOW_IMAGE_NAME}:${VERSION}
+    container_name: mlflow-server
+    expose: 
+      - "${MLFLOW_TRACKING_SERVER_PORT}"
+    ports:
+      - "${MLFLOW_TRACKING_SERVER_PORT}:${MLFLOW_TRACKING_SERVER_PORT}"
+    depends_on:
+      - postgres
+    environment:
+      MLFLOW_TRACKING_SERVER_HOST: ${MLFLOW_TRACKING_SERVER_HOST}
+      MLFLOW_TRACKING_SERVER_PORT: ${MLFLOW_TRACKING_SERVER_PORT}
+      MLFLOW_ARTIFACT_STORE: ${MLFLOW_ARTIFACT_STORE}
+      MLFLOW_BACKEND_STORE: ${MLFLOW_BACKEND_STORE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      WAIT_FOR_IT_TIMEOUT: ${WAIT_FOR_IT_TIMEOUT}
+    volumes:
+      - ./${MLFLOW_ARTIFACT_STORE}:/${MLFLOW_ARTIFACT_STORE}
+
+  postgres:
+      #user: "${POSTGRES_UID}:{POSTGRES_GID}"
+      build:
+        context: ./docker/postgres
+      image: ${IMAGE_OWNER}/${REPO_SLUG}/${POSTGRES_IMAGE_NAME}:${VERSION}
+      restart: always
+      environment:
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      ports:
+        - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      volumes:
+        - ./${POSTGRES_STORE}:/var/lib/postgresql/data
