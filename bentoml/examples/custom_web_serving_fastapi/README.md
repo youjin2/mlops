@@ -1,6 +1,6 @@
 ## Goal
 Customize the serving API with `fastapi` and use `pydantic` validation to check the data type of given parameters are passed appropriately.  
-You can see that how `fastapi` supports the automatic validation and type conversion using `pydantic` classes and how `bentoml` automatically converts the input data type required to pass to the model.
+You can see that how `fastapi` supports the automatic validation and type conversion using `pydantic` classes and how `bentoml` automatically converts the input data type required to passed to the model.
 
 
 ## Install dependencies
@@ -59,9 +59,32 @@ $ curl http://127.0.0.1:12000/metadata
 ```
 
 
+## Build bento & dockerize the API service
+```bash
+$ cd examples/custom_web_serving_fastapi
+
+# build bentos
+$ bentoml build
+
+# build docker container
+$ export BENTOML_HOME=../../bentoml/models
+$ bentoml containerize iris_fastapi_demo:latest
+$ docker images
+
+output:
+REPOSITORY                   TAG                IMAGE ID       CREATED          SIZE
+iris_fastapi_demo            mzi6ctso4scdaasc   e11433965248   20 seconds ago   847MB
+
+# launch api server
+$ docker run --rm -p 12000:3000 iris_fastapi_demo:mzi6ctso4scdaasc serve --production
+```
+
+
 
 ## References
 - [bentoml/examples/custom_web_serving/fastapi_example]
+- [bentoml/examples/pydantic_validation]
 
 
 [bentoml/examples/custom_web_serving/fastapi_example]: https://github.com/bentoml/BentoML/tree/main/examples/custom_web_serving/fastapi_example
+[bentoml/examples/pydantic_validation]: https://github.com/bentoml/BentoML/tree/main/examples/pydantic_validation
