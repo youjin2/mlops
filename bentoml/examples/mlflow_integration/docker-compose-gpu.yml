@@ -25,6 +25,13 @@ services:
       - ./:/opt/project
       - ./${MLFLOW_ARTIFACT_STORE}:/${MLFLOW_ARTIFACT_STORE}
       - ./${BENTOML_HOME}:/${BENTOML_HOME}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     stdin_open: true
     tty: true
     command: >
