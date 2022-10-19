@@ -1,0 +1,6 @@
+name: tensorflow_mnist
+entry_points:
+  main:
+    command: "python -m src.main"
+  train_model:
+    command: "python -m src.train"
