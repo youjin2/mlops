@@ -46,33 +46,11 @@ def build_model():
     return model
 
 
-def main():
-
-    # load dataset
-    (X_train, y_train), (X_valid, y_valid), (X_test, y_test) = load_dataset()
-
-    # build and train the model
-    model = build_model()
-    model.fit(
-        X_train,
-        y_train,
-        batch_size=128,
-        epochs=10,
-        validation_data=(X_valid, y_valid),
-    )
-
-    # calculate accuracies
-    pred_train = tf.argmax(model.predict(X_train), axis=1)
-    pred_valid = tf.argmax(model.predict(X_valid), axis=1)
-    pred_test = tf.argmax(model.predict(X_test), axis=1)
-    print(f"train accuracy (%): {tf.reduce_mean(tf.where(y_train == pred_train, 1., 0.))*100:0.4f}")
-    print(f"valid accuracy (%): {tf.reduce_mean(tf.where(y_valid == pred_valid, 1., 0.))*100:0.4f}")
-    print(f"test accuracy (%): {tf.reduce_mean(tf.where(y_test == pred_test, 1., 0.))*100:0.4f}")
-
-
 if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+    # available >= tensorflow==2.8.x
+    # related issue: https://github.com/tensorflow/tensorflow/issues/54286
     # mlflow.tensorflow.autolog()
     with mlflow.start_run(run_name="train_model"):
         # load dataset
@@ -95,6 +73,30 @@ if __name__ == "__main__":
             X_train,
             y_train,
             batch_size=128,
-            epochs=10,
+            epochs=2,
             validation_data=(X_valid, y_valid),
+        )
+        tf.saved_model.save(model, "./tmp_model/")
+
+        # calculate accuracies
+        pred_train = tf.argmax(model.predict(X_train), axis=1)
+        pred_valid = tf.argmax(model.predict(X_valid), axis=1)
+        pred_test = tf.argmax(model.predict(X_test), axis=1)
+        mlflow.log_dict(
+            {
+                "train_accuracy (%)": f"{tf.reduce_mean(tf.where(y_train == pred_train, 1., 0.))*100:0.4f}",
+                "valid_accuracy (%)": f"{tf.reduce_mean(tf.where(y_valid == pred_valid, 1., 0.))*100:0.4f}",
+                "test_accuracy (%)": f"{tf.reduce_mean(tf.where(y_test == pred_test, 1., 0.))*100:0.4f}",
+            },
+            "train_result.json"
+        )
+
+        # log model
+        mlflow.tensorflow.log_model(
+            tf_saved_model_dir="./tmp_model/",
+            # tf.saved_model.SERVING
+            tf_meta_graph_tags=["serve"],
+            # tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY
+            tf_signature_def_key="serving_default",
+            artifact_path="tf-mnist-demo",
         )
