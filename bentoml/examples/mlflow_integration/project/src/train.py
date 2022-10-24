@@ -52,6 +52,7 @@ if __name__ == "__main__":
     # available >= tensorflow==2.8.x
     # related issue: https://github.com/tensorflow/tensorflow/issues/54286
     # mlflow.tensorflow.autolog()
+    mlflow.keras.autolog()
     with mlflow.start_run(run_name="train_model"):
         # load dataset
         (X_train, y_train), (X_valid, y_valid), (X_test, y_test) = load_dataset()
