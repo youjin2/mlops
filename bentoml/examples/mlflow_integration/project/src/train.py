@@ -77,7 +77,8 @@ if __name__ == "__main__":
             epochs=2,
             validation_data=(X_valid, y_valid),
         )
-        tf.saved_model.save(model, "./tmp_model/")
+        model_dir = "./models"
+        model.save(model_dir)
 
         # calculate accuracies
         pred_train = tf.argmax(model.predict(X_train), axis=1)
@@ -93,11 +94,15 @@ if __name__ == "__main__":
         )
 
         # log model
-        mlflow.tensorflow.log_model(
-            tf_saved_model_dir="./tmp_model/",
-            # tf.saved_model.SERVING
-            tf_meta_graph_tags=["serve"],
-            # tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY
-            tf_signature_def_key="serving_default",
+        # mlflow.tensorflow.log_model(
+        #     tf_saved_model_dir=model_dir,
+        #     # tf.saved_model.SERVING
+        #     tf_meta_graph_tags=["serve"],
+        #     # tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KEY
+        #     tf_signature_def_key="serving_default",
+        #     artifact_path="tf-mnist-demo",
+        # )
+        mlflow.keras.log_model(
+            keras_model=model,
             artifact_path="tf-mnist-demo",
         )
