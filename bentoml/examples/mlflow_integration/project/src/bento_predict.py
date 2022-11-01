@@ -9,9 +9,10 @@ from .train import load_dataset
 
 
 def main():
+
     # search previous runs
-    # NOTE: experiment ids may vary
     runs = mlflow.search_runs(experiment_names=["mlflow-tensorflow-mnist"]).\
+        query("status == 'FINISHED'").\
         sort_values("start_time", ascending=False)
 
     # get latest run_id & artifact_path
@@ -24,7 +25,7 @@ def main():
     # model uri
     model_uri = f"runs:/{run_id}/{artifact_path}"
 
-    model = tf.keras.models.load_model("./tmp_model/")
+    model = tf.keras.models.load_model("./models/")
     # option 1: directly save trained model to BentoML
     model_1 = bentoml.keras.save_model("keras_native", model)
     print(f"BentoML model imported as keras native: {model_1}")
@@ -34,22 +35,23 @@ def main():
     print(f"BentoML model imported as mlflow pyfunc: {model_2}")
 
     # option 3:
-    # loaded_model = mlflow.keras.load_model(model_uri)
-    # model_3 = bentoml.keras.save_model("keras_native", loaded_model)
+    loaded_model = mlflow.keras.load_model(model_uri)
+    model_3 = bentoml.keras.save_model("keras", loaded_model)
+    print(f"BentoML model imported as keras native from MLflow artifact: {model_3}")
 
     bentoml_models = [
         model_1,
         model_2,
-        # model_3,
+        model_3,
     ]
 
     *_, (X_test, y_test) = load_dataset()
+    y_pred = model.predict(X_test)
     for bento_model in bentoml_models:
         runner = bento_model.to_runner()
         runner.init_local()
-        breakpoint()
 
-        assert np.allclose(runner.predict.run(X_test), model.predict(X_test))
+        assert np.allclose(runner.predict.run(X_test), y_pred)
 
 
 if __name__ == "__main__":

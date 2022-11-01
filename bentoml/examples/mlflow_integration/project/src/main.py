@@ -1,4 +1,3 @@
-import os
 import click
 
 import mlflow
@@ -20,11 +19,8 @@ def _run(entrypoint, parameters={}, source_version=None, use_cache=True):
 def workflow():
     with mlflow.start_run(run_name="mlflow_pipeline"):
         mlflow.set_tag("mlflow.runName", "mnist-training")
-        train_run = _run("train_model")
-        # _run("evaluate_model")
-
-        # model_uri = os.path.join(train_run.info.artifact_uri, "model")
-        # _run("register_model", parameters={"model_uri": model_uri})
+        _run("train_model")
+        _run("bento_predict")
 
 
 if __name__ == "__main__":

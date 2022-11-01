@@ -4,3 +4,5 @@ entry_points:
     command: "python -m src.main"
   train_model:
     command: "python -m src.train"
+  bento_predict:
+    command: "python -m src.bento_predict"
