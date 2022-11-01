@@ -199,6 +199,9 @@ See below examples:
 - [custom model runner]
 - [custom web serving fastapi]
 
+## MLFlow Integration
+[MLflow] is a open source platform that manages the machine learning model lifecycle including experimentation, reproducibility and deployment.  
+BentoML also provides features that make it easy to integrate with MLflow. (see [mlflow integration])
 
 
 
@@ -220,7 +223,9 @@ See below examples:
 [custom runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_runner
 [custom model runner]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_model_runner
 [custom web serving fastapi]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/custom_web_serving_fastapi
+[mlflow integration]: https://github.com/youjin2/mlops/tree/main/bentoml/examples/mlflow_integration
 [BentoML examples]: https://github.com/bentoml/BentoML/tree/main/examples
 [BentoML examples: tensorflow2 keras]: https://github.com/bentoml/BentoML/tree/main/examples/tensorflow2_keras
+[MLflow]: https://www.mlflow.org/
 [tmp]: https://towardsdatascience.com/bentoml-create-an-ml-powered-prediction-service-in-minutes-23d135d6ca76
 

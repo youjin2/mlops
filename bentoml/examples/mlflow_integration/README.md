@@ -20,8 +20,39 @@ $ pip install tensorflow-gpu==2.8
 ```bash
 $ cd examples/mlflow_integration
 
+# run docker-stack workbench
+$ docker-compose up -d
+$ docker exec -it workbench-jupyter /bin/bash
+
+# run mlflow experiments
 $ mlflow run project/ --experiment-name mlflow-tensorflow-mnist --env-manager local
 ```
+
+After MLflow pipeline finished, you can check out the result:
+```
+$ cd examples/mlflow_integration
+$ tree project/ -d
+
+project/
+├── bentoml
+│   ├── bentos
+│   └── models
+│       ├── keras
+│       │   └── b3rcxesz4cmikasc
+│       │       ├── ...
+│       ├── keras_native
+│       │   └── bx6hpksz4cmikasc
+│       │       ├── ...
+│       └── mlflow_keras
+│           └── bzxk7asz4cmikasc
+│               └── mlflow_model
+│                   └── ...
+├── models
+│   ├── ...
+└── src
+    └── ...
+```
+
 
 
 ## References
