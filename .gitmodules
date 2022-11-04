@@ -1,0 +1,3 @@
+[submodule "bentoml/examples/streamlit-bentoml/petfinder"]
+	path = bentoml/examples/streamlit-bentoml/petfinder
+	url = https://dagshub.com/youjin2/petfinder.git
