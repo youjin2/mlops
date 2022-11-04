@@ -33,25 +33,34 @@ Once you, you completed to setup python environment described here, you can run 
 ```bash
 $ cd ./petfinder/
 
-# add data to dvc for version control
+# init dvc (NOTE: dvc remote is {repo_name}.dvc, not {repo_name}.git)
 $ dvc init
-$ dvc add data/
-
-# push to dagshub
-$ git add .dvc/config
-$ git add .dvc/.gitignore
-$ git add .dvcignore
-$ git add .gitignore
-$ git add data.dvc
-$ git commit -m "ENH: dvc for dataset"
-$ git push origin main
-
-# push dataset to dagshub storage
-$ dvc remote add origin https://dagshub.com/{your_dagshub_username}/PetFinder
+$ dvc remote add origin https://dagshub.com/{your_dagshub_username}/petfinder.dvc
 $ dvc remote modify origin --local auth basic
 $ dvc remote modify origin --local user {your_dagshub_username}
 $ dvc remote modify origin --local password {your_dagshub_password}
+
+# commit dvc init result
+$ git add .dvc/ .dvcignore .gitignore
+$ git commit -m "ENH: init DVC"
+$ git push origin main
+
+
+# add data for dvc version control
+$ dvc add data/
+$ git add data.dvc .gitignore
+$ git commit -m "ENH: dvc add data for version control"
+
+# push dataset to dagshub storage
 $ dvc push -r origin
+$ git push origin main
+```
+
+### Git Submodule
+```bash
+$ cd examples/streamlit-bentoml/
+$ git commit -m "ENH: add dagshub petfinder submodule"
+$ git push origin main
 ```
 
 
