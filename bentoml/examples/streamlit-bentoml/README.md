@@ -42,9 +42,14 @@ $ dvc remote modify origin --local password {your_dagshub_password}
 
 # commit dvc init result
 $ git add .dvc/ .dvcignore .gitignore
+# you may have to add below line to "./dvc/config" to call "dvc get" to download data later
+# [core]
+#     remote = origin
 $ git commit -m "ENH: init DVC"
 $ git push origin main
 
+# download dataset from my repo
+$ dvc get https://dagshub.com/youjin2/petfinder data
 
 # add data for dvc version control
 $ dvc add data/
@@ -58,9 +63,14 @@ $ git push origin main
 
 ### Git Submodule
 ```bash
+# init & push submodule history
 $ cd examples/streamlit-bentoml/
+$ git submodule add https://dagshub.com/youjin2/petfinder.git
 $ git commit -m "ENH: add dagshub petfinder submodule"
 $ git push origin main
+
+# if any changes happen to remote submodule
+$ git submodule update
 ```
 
 
