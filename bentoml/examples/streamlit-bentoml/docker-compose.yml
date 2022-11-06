@@ -1,0 +1,26 @@
+version: "3"
+services:
+  jupyter:
+    build:
+      context: ../..//docker/
+    image: ${JUPYTER_IMAGE_NAME}:${VERSION}
+    container_name: bentoml-serving
+    #user: "${UID}:${GID}"
+    #user: "${UID}"
+    ports:
+      - "${JUPYTER_PORT}:8888"
+      - "${BENTOML_SERVE_PORT}:3000"
+    environment:
+      BENTOML_HOME: /${BENTOML_HOME}
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI}
+    volumes:
+      - ./:/opt/project
+      - ./${BENTOML_HOME}:/${BENTOML_HOME}
+    stdin_open: true
+    tty: true
+    command: >
+      bash -c "
+      cd / &&
+      pip install -r /opt/project/requirements.txt &&
+      jupyter notebook --no-browser --allow-root --ip='*' --port=8888 --NotebookApp.password='' --NotebookApp.token=''
+      "
