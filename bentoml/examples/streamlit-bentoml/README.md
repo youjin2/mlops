@@ -11,12 +11,12 @@ Also, we will cover various MLOps & data version control services descibed below
 
 ## Setup Dependencies
 ### Python environment
+We use [pre-built bentoml docker image] as a base python development environment for this example.  
+Additional dependencies (`mlflow`, `dagshub`, `dvc`, ...) are specified in [examples/streamlit-bentoml/requirements.txt] and they are automatically installed while running `docker-compose up`.
 ```bash
-$ cd ./bentoml/
-$ docker-compose up -d
-
-$ docker exec -it bentoml-serving /bin/bash
 $ cd examples/streamlit-bentoml/
+$ docker-compose up -d
+$ docker exec -it bentoml-serving /bin/bash
 ```
 
 ### DagsHub & DVC
@@ -28,7 +28,8 @@ $ cd ./bentoml/examples/
 $ git clone https://dagshub.com/{your_dagshub_username}/petfinder.git ./petfinder/
 ```
 
-Once you, you completed to setup python environment described here, you can run `dvc` on command line interface.
+Once you, you completed to setup python environment described here, you can run `dvc` on command line interface.  
+Below is code examples on how to use `dvc` & `dagshub` for data version control on CLI.
 
 ```bash
 $ cd ./petfinder/
@@ -74,8 +75,7 @@ $ git submodule update
 ```
 
 
-## 
-Download Dataset
+### MLflow on DagsHub
 
 
 
@@ -100,3 +100,5 @@ Download Dataset
 [the-easiest-way-to-deploy-your-ml-dl-models-in-2022-streamlit-bentoml-dagshub]: https://towardsdatascience.com/the-easiest-way-to-deploy-your-ml-dl-models-in-2022-streamlit-bentoml-dagshub-ccf29c901dac
 [Complete Guide to Experiment Tracking With MLflow and DagsHub]: https://towardsdatascience.com/complete-guide-to-experiment-tracking-with-mlflow-and-dagshub-a0439479e0b9
 [PetFinder.my - Pawpularity Contest]: https://www.kaggle.com/competitions/petfinder-pawpularity-score/data
+[pre-built bentoml docker image]: https://github.com/youjin2/mlops/tree/main/bentoml/docker
+[examples/streamlit-bentoml/requirements.txt]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/streamlit-bentoml/requirements.txt

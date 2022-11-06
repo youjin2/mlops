@@ -131,3 +131,6 @@ dmypy.json
 # data & docker trash files
 .data/*
 .Trash-*
+
+# credential files
+credentials*
