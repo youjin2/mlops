@@ -1,6 +1,6 @@
 ## Goal
 In this example, we will train and deploy the `Keras image regression model` to predict the cutiness score of cats and dogs using `Pet Pawpularity dataset` on Kaggle.  
-Also, we will cover various MLOps & data version control services descibed below to manage the machine learning pipeline and finally we will use `streamlit` & `bentoml` to interact with the developed model on web UI
+Also, we will cover various MLOps & data version control services descibed below to manage the machine learning pipeline and finally we will use `streamlit` & `bentoml` to interact with the developed model on web UI.
 - [DagsHub]
 - [DVC]
 - [MLflow]
@@ -21,14 +21,15 @@ $ docker exec -it bentoml-serving /bin/bash
 
 ### DagsHub & DVC
 First, create your dagshub repository. (e.g. `https://dagshub.com/{your_dagshub_username}/petfinder`)  
-Note that it is like github for data scienists and machine learning engineers.  
+(Note that it is like github for data scienists and machine learning engineers.)
+
 After creating remote respository on dagshub, clone the repository on your local environment.
 ```bash
 $ cd ./bentoml/examples/
 $ git clone https://dagshub.com/{your_dagshub_username}/petfinder.git ./petfinder/
 ```
 
-Once you, you completed to setup python environment described here, you can run `dvc` on command line interface.  
+Once you finished to setup python environment described above, you can run `dvc` on command line interface.  
 Below is code examples on how to use `dvc` & `dagshub` for data version control on CLI.
 
 ```bash
@@ -63,6 +64,7 @@ $ git push origin main
 ```
 
 ### Git Submodule
+`Dagshub` repo can be specified as a git submodule. (see below)
 ```bash
 # init & push submodule history
 $ cd examples/streamlit-bentoml/
@@ -76,6 +78,42 @@ $ git submodule update
 
 
 ### MLflow on DagsHub
+`MLflow` is an open source platform that manages the machine learning lifecycle.  
+`Dagshub` supports the `MLflow` tracking server (web UI managing ML experiments) and we will use this to manage experiments on this project.  
+
+First, change the `MLFLOW_TRACKING_URI` specified in the `examples/streamlit-bentoml/.env` to your dagshub (or other appropriate) mlflow tracking uri.  
+In my case, `MLFLOW_TRACKING_URI` is setted to `https://dagshub.com/youjin2/petfinder.mlflow`.
+
+And then, put `credentials.json` to `examples/streamlit-bentoml` as below.  
+Otherwise, mlflow tracking server will not be able to find the credential information.
+```json
+{
+    "MLFLOW_TRACKING_USERNAME": "{your_dagshub_username}",
+    "MLFLOW_TRACKING_PASSWORD": "{your_dagshub_password}"
+}
+```
+
+
+
+## Train Pawpularity Predictinon models
+```bash
+$ cd examples/streamlit-bentoml/
+$ export MLFLOW_TRACKING_USERNAME={your_dagshub_username}
+$ export MLFLOW_TRACKING_PASSWORD={your_dagshub_password}
+```
+
+```bash
+# train sklearn baseline model
+$ mlflow run . -e baseline --env-manager local
+
+# train keras naive model
+
+
+# train keras conv2d model
+```
+Note about flag options
+- `-e`: specify the entrypoint
+- `--env-manager`: use local environments without creating a conda virtual environment
 
 
 
@@ -87,6 +125,7 @@ $ git submodule update
 - [the-easiest-way-to-deploy-your-ml-dl-models-in-2022-streamlit-bentoml-dagshub]
 - [Data version control with Python and DVC]
 - [PetFinder.my - Pawpularity Contest]
+- [BexTuychiev/pet_pawpularity]
 
 
 [DagsHub]: https://dagshub.com/docs/index.html
@@ -102,3 +141,4 @@ $ git submodule update
 [PetFinder.my - Pawpularity Contest]: https://www.kaggle.com/competitions/petfinder-pawpularity-score/data
 [pre-built bentoml docker image]: https://github.com/youjin2/mlops/tree/main/bentoml/docker
 [examples/streamlit-bentoml/requirements.txt]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/streamlit-bentoml/requirements.txt
+[BexTuychiev/pet_pawpularity]: https://github.com/BexTuychiev/pet_pawpularity

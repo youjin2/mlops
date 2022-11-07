@@ -1,0 +1,8 @@
+name: predict_pawpularity_score
+entry_points:
+  baseline:
+    command: "python -m src.baseline"
+  keras_naive:
+    command: "python -m src.mlp"
+  keras_conv2d:
+    command: "python -m src.conv2d"
