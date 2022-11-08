@@ -8,7 +8,8 @@ from sklearn.model_selection import train_test_split
 from .configs import (
     train_meta_path,
     # test_meta_path,
-    mlflow_credential_path
+    mlflow_credential_path,
+    parent_dir,
 )
 
 
@@ -28,7 +29,7 @@ def get_metadata(train_valid_split=True, seed=1234):
     else:
         valid_data = pd.DataFrame(columns=train_data.columns)
 
-    def get_input_output(data):
+    def get_input_output(data: pd.DataFrame):
         data = data.copy()
         X_data = data.drop(["Id", "Pawpularity"], axis=1)
         y_data = data[["Pawpularity"]]
@@ -40,6 +41,28 @@ def get_metadata(train_valid_split=True, seed=1234):
 
     return (X_train, y_train), (X_valid, y_valid)
     # return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
+
+
+def get_conv2d_metadata(train_valid_split=True, seed=1234):
+    train_data = pd.read_csv(train_meta_path)
+    # test_data = pd.read_csv(configs.test_meta_path)
+
+    if train_valid_split:
+        train_data, valid_data = train_test_split(train_data, test_size=0.1, random_state=seed)
+    else:
+        valid_data = pd.DataFrame(columns=train_data.columns)
+
+    def get_input_output(data: pd.DataFrame):
+        X_data = data["Id"].apply(
+            lambda x: os.path.join(parent_dir, "petfinder/data/raw/train", f"{x}.jpg")
+        ).to_frame("Path")
+        y_data = data[["Pawpularity"]]
+        return (X_data, y_data)
+
+    X_train, y_train = get_input_output(train_data)
+    X_valid, y_valid = get_input_output(valid_data)
+
+    return (X_train, y_train), (X_valid, y_valid)
 
 
 def mean_squared_error(y_true, y_pred, squared=False):
