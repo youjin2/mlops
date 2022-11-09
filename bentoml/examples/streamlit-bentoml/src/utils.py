@@ -55,8 +55,8 @@ def get_conv2d_metadata(train_valid_split=True, seed=1234):
     def get_input_output(data: pd.DataFrame):
         X_data = data["Id"].apply(
             lambda x: os.path.join(parent_dir, "petfinder/data/raw/train", f"{x}.jpg")
-        ).to_frame("Path")
-        y_data = data[["Pawpularity"]]
+        ).values
+        y_data = data["Pawpularity"].values
         return (X_data, y_data)
 
     X_train, y_train = get_input_output(train_data)
