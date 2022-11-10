@@ -4,7 +4,8 @@ from sklearn.ensemble import RandomForestRegressor
 from .utils import (
     set_mlflow_crendentials,
     get_metadata,
-    mean_squared_error
+    mean_squared_error,
+    mean_absolute_error,
 )
 
 
@@ -25,7 +26,7 @@ def get_sklearn_baseline():
 if __name__ == "__main__":
     set_mlflow_crendentials()
 
-    (X_train, y_train), (X_test, y_test) = get_metadata(train_valid_split=True)
+    (X_train, y_train), (X_valid, y_valid) = get_metadata(train_valid_split=True)
     model = get_sklearn_baseline()
 
     mlflow.set_experiment("Pawpularity Score")
@@ -33,7 +34,11 @@ if __name__ == "__main__":
     with mlflow.start_run(run_name="sklearn_baseline"):
         model.fit(X_train, y_train)
         pred_train = model.predict(X_train)
-        pred_test = model.predict(X_test)
+        pred_valid = model.predict(X_valid)
+
+        mlflow.log_metric("valid_mae", mean_absolute_error(y_valid, pred_valid))
+        mlflow.log_metric("valid_mse", mean_squared_error(y_valid, pred_valid)**2)
+        mlflow.log_metric("valid_rmse", mean_squared_error(y_valid, pred_valid))
 
         print(f"Train MSE: {mean_squared_error(y_train, pred_train)}")
-        print(f"Test MSE: {mean_squared_error(y_test, pred_test)}")
+        print(f"Test MSE: {mean_squared_error(y_valid, pred_valid)}")
