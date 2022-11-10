@@ -3,6 +3,6 @@ entry_points:
   baseline:
     command: "python -m src.baseline"
   keras_naive:
-    command: "python -m src.mlp"
+    command: "python -m src.keras_naive"
   keras_conv2d:
-    command: "python -m src.conv2d"
+    command: "python -m src.keras_conv2d"

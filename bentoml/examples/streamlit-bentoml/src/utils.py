@@ -76,6 +76,15 @@ def mean_squared_error(y_true, y_pred, squared=False):
     return mse
 
 
+def mean_absolute_error(y_true, y_pred):
+    y_true = np.reshape(np.array(y_true), -1)
+    y_pred = np.reshape(np.array(y_pred), -1)
+
+    mae = np.nanmean(np.abs(y_true - y_pred))
+
+    return mae
+
+
 if __name__ == "__main__":
     set_mlflow_crendentials()
     get_metadata()
