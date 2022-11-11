@@ -36,9 +36,13 @@ if __name__ == "__main__":
         pred_train = model.predict(X_train)
         pred_valid = model.predict(X_valid)
 
-        mlflow.log_metric("valid_mae", mean_absolute_error(y_valid, pred_valid))
-        mlflow.log_metric("valid_mse", mean_squared_error(y_valid, pred_valid)**2)
-        mlflow.log_metric("valid_rmse", mean_squared_error(y_valid, pred_valid))
-
         print(f"Train MSE: {mean_squared_error(y_train, pred_train)}")
         print(f"Test MSE: {mean_squared_error(y_valid, pred_valid)}")
+
+        # log valid metrics manually
+        metrics = {
+            "valid_mae": mean_absolute_error(y_valid, pred_valid),
+            "valid_mse": mean_squared_error(y_valid, pred_valid, squared=True),
+            "valid_rmse": mean_squared_error(y_valid, pred_valid, squared=False),
+        }
+        mlflow.log_metrics(metrics)
