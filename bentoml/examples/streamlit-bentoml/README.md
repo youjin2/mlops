@@ -96,25 +96,34 @@ Otherwise, mlflow tracking server will not be able to find the credential inform
 
 
 ## Train Pawpularity Predictinon models
+You need to set environment variables about credential information.  
+Export the shell variables by typing below line on CLI inside the docker container.
 ```bash
 $ cd examples/streamlit-bentoml/
 $ export MLFLOW_TRACKING_USERNAME={your_dagshub_username}
 $ export MLFLOW_TRACKING_PASSWORD={your_dagshub_password}
 ```
 
+I made three models to predict `Pawpularity` score and you can run & log the experiments by running commands below in the docker container.  
+(See `examples/streamlit-bentoml/MLProject` for detailed description about entrypoints)
 ```bash
-# train sklearn baseline model
+$ cd examples/streamlit-bentoml/
+
+# train sklearn baseline model (RandomForestRegressor)
 $ mlflow run . -e baseline --env-manager local
 
-# train keras naive model
+# train keras naive model (MLP)
+$ mlflow run . -e keras_naive --env-manager local
 
-
-# train keras conv2d model
+# train keras conv2d model (Conv2D)
+$ mlflow run . -e keras_conv2d --env-manager local
 ```
 Note about flag options
 - `-e`: specify the entrypoint
 - `--env-manager`: use local environments without creating a conda virtual environment
 
+
+## Create BentoServer
 
 
 
