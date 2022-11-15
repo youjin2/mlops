@@ -22,8 +22,10 @@ def set_credentials():
 
 
 def get_latest_conv2d_run():
+    # get all mlflow runs with given experiment_name
     runs = mlflow.search_runs(experiment_names=[EXPERIMENT_NAME])
 
+    # filter conv2d models
     conv2d_runs = runs.\
         query("`tags.mlflow.runName` == 'keras_conv2d'").\
         query("status == 'FINISHED'").\
