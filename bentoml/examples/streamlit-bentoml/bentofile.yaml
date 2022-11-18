@@ -1,0 +1,10 @@
+service: "service.py:svc"
+include:
+ - "service.py"
+python:
+  packages:
+   - scikit-learn==1.1.2
+   - tensorflow==2.5.0
+   - numpy~=1.19.2
+   - Pillow==9.2.0
+   - mlflow==1.28.0
