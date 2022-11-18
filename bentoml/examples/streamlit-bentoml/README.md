@@ -124,6 +124,152 @@ Note about flag options
 
 
 ## Create BentoServer
+You can import the model saved at `MLflow tracking server` by running commands below.  
+(Note that bentoml supports the API importing MLflow model to BentoML model store)
+```bash
+$ cd examples/streamlit-bentoml/
+
+# set your mlflow tracking server credentials
+$ export MLFLOW_TRACKING_USERNAME={your_dagshub_username}
+$ export MLFLOW_TRACKING_PASSWORD={your_dagshub_password}
+
+# save bento model from mlflow tracking server
+$ python -m src.save_bento_model
+
+# check out the bento saved model
+$ bentoml models list
+
+# expected output:
+ Tag                                  Module          Size       Creation Time
+ keras-conv2d-model:jjvzu5tdkcf3yasc  bentoml.mlflow  54.78 MiB  2022-11-13 12:40:01
+```
+
+After saving the bento model, you can run API server on the docker container with:
+```bash
+$ cd examples/streamlit-bentoml/
+
+# run api server
+$ bentoml serve service.py:svc --host 0.0.0.0 --port 3000 --reload
+```
+
+You can check out the API reponse on CLI with:
+```bash
+$ curl -X 'POST' \
+  'http://localhost:12000/predict_image' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/postscript' \
+  --data-binary '@fff19e2ce11718548fa1c5d039a5192a.jpg'
+
+$ curl -X 'POST' 'http://localhost:12000/predict_image' -H 'accept: application/json' -H 'Content-Type: application/postscript' --data-binary '@petfinder/data/raw/train/fff19e2ce11718548fa1c5d039a5192a.jpg'
+```
+
+or in Python with:
+```python
+import requests
+import json
+import base64
+
+
+with open("petfinder/data/raw/train/fff19e2ce11718548fa1c5d039a5192a.jpg", "rb") as f:
+    image_buffer = f.read()
+
+response = requests.post(
+    "http://0.0.0.0:12000/predict_text",
+    # "http://0.0.0.0:3000/predict_text",
+    data=base64.b64encode(image_buffer),
+    headers={"content-type": "text/plain"},
+)
+print(json.loads(response.text))
+```
+
+
+## Build the Bento
+To build a bento to deploy our API server, first write a `bentoml.yaml` file which specifies the service and requirements to launch an API server.  
+Note that we bind bento service as `svc = bentoml.Service(...)`.
+```yaml
+service: "service.py:svc"
+include:
+ - "service.py"
+python:
+  packages:
+   - scikit-learn==1.1.2
+   - tensorflow==2.5.0
+   - numpy~=1.19.2
+   - Pillow==9.2.0
+   - bentoml==1.28.0
+```
+
+And then, build the bento by running command below in your docker container.
+```bash
+$ cd examples/streamlit-bentoml/
+
+# build the bento
+$ bentoml build
+
+# check out the bento created
+$ bentoml list
+ Tag                                          Size       Creation Time        Path
+ pawpularity-conv2d-service:l7e46fthj6cgqasc 54.81 MiB  2022-11-18 13:25:17  /bentoml/bentos/pawpularity-conv2d-service/nyjnowdhisbhcasc
+```
+
+You can test containerized API server by running command below on your local machine.
+```bash
+$ cd examples/streamlit-bentoml/
+
+# set "BENTOML_HOME" environment variable
+$ export BENTOML_HOME=`pwd`/bentoml/
+
+# build docker container (bentoml installation required)
+$ bentoml containerize pawpularity-conv2d-service:latest
+
+# check out docker images
+$ docker images
+
+expected output:
+REPOSITORY                   TAG                IMAGE ID       CREATED              SIZE
+pawpularity-conv2d-service   l7e46fthj6cgqasc   1b2fa2a5c622   About a minute ago   2.13GB
+
+# run dockerized API server
+$ docker run --rm -p 12000:3000 pawpularity-conv2d-service:l7e46fthj6cgqasc serve --production
+```
+
+
+
+## Deploy to Heroku
+You need to [create a Heroku account] and [download the Heroku CLI] to create and manage the apps.  
+Just run below to install the Heroku CLI.
+```bash
+$ curl https://cli-assets.heroku.com/install.sh | sh
+```
+
+You can login to Heroku CLI by opening web brower and get the credentials automatically:
+```bash
+$ heroku login
+heroku: Press any key to open up the browser to login or q to exit
+ ›   Warning: If browser does not open, visit
+ ›   https://cli-auth.heroku.com/auth/browser/***
+heroku: Waiting for login...
+Logging in... done
+Logged in as my@email.com
+```
+
+If you want to stay in the CLI to enter your crendentials, then run:
+```bash
+$ heroku login -i
+Email [my@email.com]: my@email.com
+Password: ************
+Logged in as my@email.com
+```
+
+```bash
+$ heroku create youjin2-pet-pawpularity
+```
+
+
+
+
+## Streamlit web UI
+
 
 
 
@@ -151,3 +297,5 @@ Note about flag options
 [pre-built bentoml docker image]: https://github.com/youjin2/mlops/tree/main/bentoml/docker
 [examples/streamlit-bentoml/requirements.txt]: https://github.com/youjin2/mlops/blob/main/bentoml/examples/streamlit-bentoml/requirements.txt
 [BexTuychiev/pet_pawpularity]: https://github.com/BexTuychiev/pet_pawpularity
+[create a Heroku account]: https://signup.heroku.com/
+[download the Heroku CLI]: https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli
