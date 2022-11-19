@@ -20,9 +20,10 @@ $ docker exec -it bentoml-serving /bin/bash
 ```
 
 ### DagsHub & DVC
-First, create your dagshub repository. (e.g. `https://dagshub.com/{your_dagshub_username}/petfinder`)  
-(Note that it is like github for data scienists and machine learning engineers.)
+Dagshub is a github-like open source platform for data scientist and machine learning engineers to versioning their data, models, experiments and codes.  
+We will cover a brief introduction here for doing version control about our `Pawpularity` dataset using dagshub.
 
+First, create your dagshub repository. (e.g. `https://dagshub.com/{your_dagshub_username}/petfinder`)  
 After creating remote respository on dagshub, clone the repository on your local environment.
 ```bash
 $ cd ./bentoml/examples/
@@ -50,7 +51,7 @@ $ git add .dvc/ .dvcignore .gitignore
 $ git commit -m "ENH: init DVC"
 $ git push origin main
 
-# download dataset from my repo
+# download dataset from my repo (I already stored the dataset to my remote repository)
 $ dvc get https://dagshub.com/youjin2/petfinder data
 
 # add data for dvc version control
@@ -157,10 +158,9 @@ You can check out the API reponse on CLI with:
 $ curl -X 'POST' \
   'http://localhost:12000/predict_image' \
   -H 'accept: application/json' \
-  -H 'Content-Type: application/postscript' \
-  --data-binary '@fff19e2ce11718548fa1c5d039a5192a.jpg'
+  -H 'Content-Type: image/jpeg' \
+  --data-binary '@petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg'
 
-$ curl -X 'POST' 'http://localhost:12000/predict_image' -H 'accept: application/json' -H 'Content-Type: application/postscript' --data-binary '@petfinder/data/raw/train/fff19e2ce11718548fa1c5d039a5192a.jpg'
 ```
 
 or in Python with:
@@ -170,7 +170,7 @@ import json
 import base64
 
 
-with open("petfinder/data/raw/train/fff19e2ce11718548fa1c5d039a5192a.jpg", "rb") as f:
+with open("petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg", "rb") as f:
     image_buffer = f.read()
 
 response = requests.post(
@@ -236,7 +236,11 @@ $ docker run --rm -p 12000:3000 pawpularity-conv2d-service:l7e46fthj6cgqasc serv
 
 
 ## Deploy to Heroku
-You need to [create a Heroku account] and [download the Heroku CLI] to create and manage the apps.  
+### Setup Heroku CLI
+`Heroku` is a cloud-based SaaS platform managed by Salesforce that enables developers to build, run and operate the applications.  
+Here we are going to use Heroku to deploy our `streamlit web UI` service.
+
+First, [create a Heroku account] and [download the Heroku CLI] to create and manage the apps.  
 Just run below to install the Heroku CLI.
 ```bash
 $ curl https://cli-assets.heroku.com/install.sh | sh
@@ -261,10 +265,59 @@ Password: ************
 Logged in as my@email.com
 ```
 
+### Deploy the Bento and Launch API service
+First, we need to create a heroku app for our API service.
 ```bash
+# login to container registry
+$ heroku container:login
+
+# create an app name "youjin2-pet-pawpularity"
+# (you may use any other your own app name)
 $ heroku create youjin2-pet-pawpularity
 ```
 
+After finishing creaeting an app, deploy our containerized API servce.
+```bash
+$ cd examples/streamlit-bentoml
+
+# change directory to {BENTOML_HOME}/{OUR_LATEST_SERVICE}
+$ bentoml/bentos/pawpularity-conv2d-service/l7e46fthj6cgqasc/
+
+# change directory which docker file saved
+$ cd env/docker
+
+# push docker conatiner to heroku
+$ heroku container:push web --app youjin2-pet-pawpularity --context-path=../../
+
+# if you get an error message like below, you need to enable docker BuildKit
+# reference: https://docs.docker.com/build/buildkit/#getting-started
+the --mount option requires BuildKit. Refer to https://docs.docker.com/go/buildkit/ to learn how to build images with BuildKit enabled
+ ▸    Error: docker build exited with Error: 1
+
+# option 1. To enable the docker BuildKit by default, please add below to "/etc/docker/daemon.json"
+{
+  "features": {
+    "buildkit" : true
+  }
+}
+
+# option 2. You can set an environment variable
+# (I couldn't solve the problem by using this option)
+$ DOCKER_BUILDKIT=1
+
+# now restart the docker container and push docker container to heroku again
+$ sudo service docker stop
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart docker
+$ heroku container:push web --app youjin2-pet-pawpularity --context-path=../../
+```
+
+Finally, release the app with the command below:
+```bash
+$ heroku container:release web --app youjin2-pet-pawpularity
+
+# open https://youjin2-pet-pawpularity.herokuapp.com/ on your browser
+```
 
 
 
