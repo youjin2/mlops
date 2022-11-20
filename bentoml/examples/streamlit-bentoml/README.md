@@ -1,6 +1,6 @@
 ## Goal
-In this example, we will train and deploy the `Keras image regression model` to predict the cutiness score of cats and dogs using `Pet Pawpularity dataset` on Kaggle.  
-Also, we will cover various MLOps & data version control services descibed below to manage the machine learning pipeline and finally we will use `streamlit` & `bentoml` to interact with the developed model on web UI.
+In this example, we will train and deploy `image regression model` to predict the cutiness score of cats and dogs using `Pet Pawpularity dataset` on Kaggle.  
+Also, we will cover various MLOps & data version control services listed below to manage the machine learning pipeline and finally we will use `streamlit` & `bentoml` to serve the developed model on web UI.
 - [DagsHub]
 - [DVC]
 - [MLflow]
@@ -11,7 +11,7 @@ Also, we will cover various MLOps & data version control services descibed below
 
 ## Setup Dependencies
 ### Python environment
-We use [pre-built bentoml docker image] as a base python development environment for this example.  
+We will use [pre-built bentoml docker image] as a base python development environment for this example.  
 Additional dependencies (`mlflow`, `dagshub`, `dvc`, ...) are specified in [examples/streamlit-bentoml/requirements.txt] and they are automatically installed while running `docker-compose up`.
 ```bash
 $ cd examples/streamlit-bentoml/
