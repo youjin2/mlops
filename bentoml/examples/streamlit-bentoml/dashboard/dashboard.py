@@ -14,7 +14,7 @@ st.markdown(
 )
 
 # upload a simple cover image
-with open("./doc/app_cover.jpg", "rb") as f:
+with open("./doc/figures/app_cover.jpg", "rb") as f:
     st.image(f.read(), use_column_width=True)
 
 st.markdown("### Grab a picture of your pet or upload an image to get a Pawpularity score.")
