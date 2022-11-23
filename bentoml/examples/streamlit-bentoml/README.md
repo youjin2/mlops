@@ -1,5 +1,5 @@
 ## Goal
-In this example, we will train and deploy `image regression model` to predict the cutiness score of cats and dogs using `Pet Pawpularity dataset` on Kaggle.  
+In this example, we will train and deploy `image regression model` to predict the cuteness score of cats and dogs using `Pet Pawpularity dataset` on Kaggle.  
 Also, we will cover various MLOps & data version control services listed below to manage the machine learning pipeline and finally we will use `streamlit` & `bentoml` to serve the developed model on web UI.
 - [DagsHub]
 - [DVC]
@@ -123,6 +123,11 @@ Note about flag options
 - `-e`: specify the entrypoint
 - `--env-manager`: use local environments without creating a conda virtual environment
 
+You can see the experiment results on MLflow tracking server UI.  
+(in my case, `https://dagshub.com/youjin2/petfinder.mlflow/#/experiments/4`)
+![title](doc/figures/mlflow_tracking_server_ui.png)
+
+
 
 ## Create BentoServer
 You can import the model saved at `MLflow tracking server` by running commands below.  
@@ -182,6 +187,10 @@ response = requests.post(
 print(json.loads(response.text))
 ```
 
+or manually request on bentoml swagger ui:  
+(in my case, `http://{my_server_ip_address}:12000`)
+![title](doc/figures/bentoml_swagger_ui.png)
+
 
 ## Build the Bento
 To build a bento to deploy our API server, first write a `bentoml.yaml` file which specifies the service and requirements to launch an API server.  
@@ -210,6 +219,9 @@ $ bentoml build
 $ bentoml list
  Tag                                          Size       Creation Time        Path
  pawpularity-conv2d-service:l7e46fthj6cgqasc 54.81 MiB  2022-11-18 13:25:17  /bentoml/bentos/pawpularity-conv2d-service/nyjnowdhisbhcasc
+
+# you can serve the deploayed bento with:
+$ bentoml serve pawpularity-conv2d-service:latest --port 3000 --host 0.0.0.0 --production
 ```
 
 You can test containerized API server by running command below on your local machine.
@@ -316,13 +328,39 @@ Finally, release the app with the command below:
 ```bash
 $ heroku container:release web --app youjin2-pet-pawpularity
 
-# open https://youjin2-pet-pawpularity.herokuapp.com/ on your browser
+# open pages below to check out the status
+# - app server: https://youjin2-pet-pawpularity.herokuapp.com/
+# - app dashboard: https://dashboard.heroku.com/apps/youjin2-pet-pawpularity
+```
+
+This `Heroku app URL` can be used as an API endpoint in `streamlit web server` which we are going to cover in the next step. 
+However, I don't know the exact cause, but I couldn't receive the API response, possibily because of memory limit on `Heroku app server`.  
+So, I decided to run `API server` and `streamlit web server` in the same docker container.
+```bash
+$ heroku logs --tail -a youjin2-pet-pawpularity
+
+# error logs example:
+2022-11-23T12:41:31.504150+00:00 app[web.1]: 2022-11-23T12:41:31+0000 [INFO] [api_server:8] Service loaded from Bento directory: bentoml.Service(tag="pawpularity-conv2d-service:l7e46fthj6cgqasc", path="/home/bentoml/bento/")
+2022-11-23T12:41:49.556352+00:00 heroku[web.1]: Process running mem=1025M(200.2%)
+2022-11-23T12:41:49.558523+00:00 heroku[web.1]: Error R15 (Memory quota vastly exceeded)
 ```
 
 
 
-## Streamlit web UI
 
+
+## Streamlit web UI
+Now, it's time to build a simple web UI to service our `pawpularity predicting model`.  
+We're going to use `streamlit` which is an open source python library that helps easy implementation of creating web apps.  
+Just type below in your docker container to run the `streamlit web server` and you can get a cuteness score of your pet by i) uploading an image, or ii) taking a picture.
+```bash
+# launch api server (container 3000 -> host 12000)
+$ bentoml serve pawpularity-conv2d-service:latest --port 3000 --host 0.0.0.0 --production
+
+# launch streamlit web server (container 8501 -> host 5000)
+$ streamlit run dashboard/dashboard.py --server.address 0.0.0.0 --server.port 8501
+```
+![title](doc/figures/app_demo.png)
 
 
 
