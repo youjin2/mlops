@@ -161,11 +161,15 @@ $ bentoml serve service.py:svc --host 0.0.0.0 --port 3000 --reload
 You can check out the API reponse on CLI with:
 ```bash
 $ curl -X 'POST' \
-  'http://localhost:12000/predict_image' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: image/jpeg' \
-  --data-binary '@petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg'
+    'http://localhost:12000/predict_image' \
+    -H 'accept: application/json' \
+    -H 'Content-Type: image/jpeg' \
+    --data-binary '@petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg'
 
+$ curl -X 'POST' \
+    'http://localhost:12000/predict_image' \
+    -H 'Content-Type: multipart/form-data' \
+    -F 'fileobj=@petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg;type=image/jpeg'
 ```
 
 or in Python with:
@@ -174,10 +178,14 @@ import requests
 import json
 import base64
 
+from requests_toolbelt import MultipartEncoder
 
-with open("petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg", "rb") as f:
+
+image_path = "petfinder/data/raw/train/0365920c849af714930d75e7727c5165.jpg"
+with open(image_path, "rb") as f:
     image_buffer = f.read()
 
+# get reponse from "predict_text"
 response = requests.post(
     "http://0.0.0.0:12000/predict_text",
     # "http://0.0.0.0:3000/predict_text",
@@ -185,6 +193,28 @@ response = requests.post(
     headers={"content-type": "text/plain"},
 )
 print(json.loads(response.text))
+
+# get reponse from "predict_image"
+# - content-type: image/jpeg
+response = requests.post(
+    "http://0.0.0.0:12000/predict_image",
+    # "http://0.0.0.0:3000/predict_image",
+    data=open(image_path, "rb").read(),
+    headers={"content-type": "image/jpeg"},
+)
+
+# - content-type: multipart/form-data
+encoder = MultipartEncoder(
+    # (file_name, file, file_type)
+    # reference: https://stackoverflow.com/a/50595768
+    fields={"image_file": ("image", open(image_path, "rb"), "image/jpeg")}
+)
+response = requests.post(
+    "http://0.0.0.0:12000/predict_image",
+    # "http://0.0.0.0:3000/predict_image",
+    data=encoder.to_string(),
+    headers={"content-type": encoder.content_type,},
+)
 ```
 
 or manually request on bentoml swagger ui:  
