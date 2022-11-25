@@ -2,3 +2,4 @@ dagshub==0.2.0
 dvc==2.33.1
 mlflow==1.28.*
 streamlit==1.15.0
+requests-toolbelt==0.10.1
