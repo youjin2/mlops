@@ -141,16 +141,17 @@ $ mlflow run . --experiment-name example-pystock-training --env-manager local
 A docker image provides you with a mechanism to run your batch scoring job in any environment supporting Docker images.  
 (see [examples/pystock-serving/pystock-inference-batch])
 ```bash
-# first, run mlflow-server with our docker stack workbench 
+# first, run mlflow-server with our docker stack workbench
 $ cd mlflow/
-$ docker-compose  up -d mlflow
+$ docker-compose up -d mlflow
 
 # create "pystock-inference-batch" docker image
 $ cd mlflow/examples/pystock-serving/pystock-inference-batch/
 $ docker-compose build
 
 # run batch inference pipeline
-# NOTE: mlflow-serving container shares a existings network with our workbench
+# NOTE: mlflow-serving container shares a existing network with our workbench
+# (use "mlflow_default" network which is our workbench's network name)
 $ docker-compose run --rm batch-serving
 
 # FYI: container's network can be identified by
@@ -163,7 +164,7 @@ Setting up an dockerized API system by relying on the MLflow built-in REST API e
 ```bash
 # first, run mlflow-server with our docker stack workbench 
 $ cd mlflow/
-$ docker-compose  up -d mlflow
+$ docker-compose up -d mlflow
 
 # create "pystock-inference-api" docker image
 $ cd mlflow/examples/pystock-serving/pystock-inference-api/
