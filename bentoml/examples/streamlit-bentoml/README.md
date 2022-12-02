@@ -223,7 +223,7 @@ or manually request on bentoml swagger ui:
 
 
 ## Build the Bento
-To build a bento to deploy our API server, first write a `bentoml.yaml` file which specifies the service and requirements to launch an API server.  
+To build a bento to deploy our API server, first write a `bentofile.yaml` file which specifies the service and requirements to launch an API server.  
 Note that we bind bento service as `svc = bentoml.Service(...)`.
 ```yaml
 service: "service.py:svc"
@@ -235,7 +235,7 @@ python:
    - tensorflow==2.5.0
    - numpy~=1.19.2
    - Pillow==9.2.0
-   - bentoml==1.28.0
+   - mlflow==1.28.0
 ```
 
 And then, build the bento by running command below in your docker container.
