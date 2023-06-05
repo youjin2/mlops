@@ -1,6 +1,15 @@
 ## Introduction
 
-## Setup Kubernetes
+## Setup Kubeflow
+```bash
+# install snap
+$ sudo apt install snapd
+
+# install kubectl with snap
+$ sudo snap install kubectl --classic
+
+# install kubeflow
+```
 
 ## References
 - [Kubeflow for Machine Learning: From Lab to Production, 1st Edition]
