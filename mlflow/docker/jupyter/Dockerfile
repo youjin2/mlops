@@ -1,4 +1,4 @@
-FROM condaforge/miniforge3
+FROM condaforge/miniforge3:4.14.0-0
 
 RUN apt-get update --yes && \
     apt-get install htop --yes && \

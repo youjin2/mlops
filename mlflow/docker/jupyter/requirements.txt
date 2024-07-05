@@ -5,12 +5,11 @@ numpy==1.23.3
 pandas==1.4.4
 pandas-datareader==0.10.0
 xgboost==1.6.2
-#tensorflow==2.8.0; platform_machine != "aach64" and platform_system == "Linux"
-#tensorflow==2.10.0; platform_machine == "aach64" and platform_system == "Linux"
+tensorflow==2.8.0; platform_machine != "aach64" and platform_system == "linux"
 protobuf==3.20.*
 hyperopt==0.2.7
 pandas_profiling==3.3.0
-feast==0.25.0
+feast==0.25.0; platform_machine != "aach64" and platform_system == "linux"
 great-expectations==0.15.24
 matplotlib
 cloudpickle
