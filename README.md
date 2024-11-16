@@ -1,5 +1,5 @@
 # MLOps
-A collection of examples using diffrent MLOps frameworks.
+A collection of projects related to MLOps framework.
 
 
 # References

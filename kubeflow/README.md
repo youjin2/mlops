@@ -16,4 +16,4 @@ $ sudo snap install kubectl --classic
 - [mlops-for-all with Kubeflow]
 
 [Kubeflow for Machine Learning: From Lab to Production, 1st Edition]: https://www.amazon.com/Kubeflow-Machine-Learning-Lab-Production/dp/1492050121
-[mlops-for-all with Kubeflow]: https://mlops-for-all.github.io/docs/
+[mlops-for-all with Kubeflow]: https://mlops-for-all.github.io/docs/introduction/intro
