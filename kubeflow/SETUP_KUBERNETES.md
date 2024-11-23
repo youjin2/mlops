@@ -30,7 +30,7 @@ Minimum system requirements are:
 ## 2. Install Prerequisites
 
 ### 2-1. Install apt packages
-Port-forwarding is required to connect client and cluster
+Port-forwarding is required to connect client and cluster.
 ```bash
 $ sudo apt-get update
 $ sudo apt-get install -y socat
@@ -38,7 +38,7 @@ $ sudo apt-get install -y socat
 
 ### 2-2. Install Docker
 
-1) install docker
+1) Install Docker
     ```bash
     # apt packages required to install docker
     $ sudo apt-get update && sudo apt-get install -y ca-certificates curl gnupg lsb-release
@@ -64,7 +64,7 @@ $ sudo apt-get install -y socat
     $ sudo apt-get install -y containerd.io docker-ce=5:20.10.11~3-0~ubuntu-focal docker-ce-cli=5:20.10.11~3-0~ubuntu-focal
     ```
 
-2) check if the installation completed properly
+2) Check if the installation completed properly
     ```bash
     $ sudo docker run hello-world
 
@@ -91,7 +91,7 @@ $ sudo apt-get install -y socat
     https://docs.docker.com/get-started/
     ```
 
-3) use docker commands without the sudo keyword
+3) Use docker commands without the sudo keyword
     ```bash
     $ sudo groupadd docker
     $ sudo usermod -aG docker $USER
@@ -100,7 +100,7 @@ $ sudo apt-get install -y socat
 
 
 ### 2-3. Turn Off Swap Memory
-In order to use kubelet properly, swap memory must be turned-off on the cluster node
+In order to use kubelet properly, swap memory must be turned-off on the cluster node.
 ```bash
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 $ sudo swapoff -a
@@ -112,7 +112,7 @@ Kubectl is a client tool used to request an API call to the Kubernetes cluster.
 
 Install Kubectl on a client as follows:
 
-1) download kubectl to the current path
+1) Download kubectl to the current path
     ```bash
     # amd64 (e.g. ubuntu)
     $ curl -LO "https://dl.k8s.io/release/v1.21.7/bin/linux/amd64/kubectl"
@@ -121,7 +121,7 @@ Install Kubectl on a client as follows:
     $ curl -LO "https://dl.k8s.io/release/v1.21.7/bin/darwin/arm64/kubectl"
     ```
 
-2) update permission and location of kubectl
+2) Update permission and location of kubectl
     ```bash
     # linux
     $ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
@@ -132,7 +132,7 @@ Install Kubectl on a client as follows:
     $ sudo chown root:wheel /usr/local/bin/kubectl
     ```
 
-3) check if the installation completed properly
+3) Check if the installation completed properly
     ```bash
     $ kubectl version --client
 
@@ -140,17 +140,17 @@ Install Kubectl on a client as follows:
     ```
 
 ## 3. Install Kubernetes
-Before installing the kubernetes cluster, make sure that all the components in [2. Install Prerequisite](#2.-install-prerequisite) are installed
+Before installing the kubernetes cluster, make sure that all the components in [2. Install Prerequisite](#2.-install-prerequisite) are installed.
 
 ### 3-1. Install K3s
-Although k3s uses `containerd` as the default backend, since we're going to use GPU, we we will use `docker` as the backend
+Although k3s uses `containerd` as the default backend, since we're going to use GPU, we we will use `docker` as the backend.
 
-1) install prerequisite  
+1) Install prerequisite  
     ```bash
     $ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v1.21.7+k3s1 sh -s - server --disable traefik --disable servicelb --disable local-storage --docker
     ```
 
-2) check if the installation completed properly
+2) Check if the installation completed properly
     ```bash
     $ sudo cat /etc/rancher/k3s/k3s.yaml
 
@@ -178,7 +178,7 @@ Although k3s uses `containerd` as the default backend, since we're going to use 
 
 Copy k3s config to use it as the cluster's kubeconfig and add permission to the current user
 
-3) setup kubernetes cluster
+3) Setup kubernetes cluster
     ```bash
     $ mkdir ~/.kube
     $ sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
@@ -188,15 +188,15 @@ Copy k3s config to use it as the cluster's kubeconfig and add permission to the 
     ```
 
 
-Copy kubeconfig configured in the cluster to the local client and modify the server ip address from `https://127.0.0.1:6443` to `https://{CLUSTER_IP_ADDRESS}.6443`
+Copy kubeconfig configured in the cluster to the local client and modify the server ip address from `https://127.0.0.1:6443` to `https://{CLUSTER_IP_ADDRESS}.6443`.
 
-4) setup kubernetes client
+4) Setup kubernetes client
     ```bash
     $ mkdir ~/.kube
     $ scp {CLUSTER_USER_ID}@{CLUSTER_IP}:~/.kube/config ~/.kube/config
     ```
 
-5) check if the node status is ready
+5) Check if the node status is ready
     ```bash
     $ kubectl get nodes -o wide
 
@@ -209,21 +209,21 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
 
 ### 3-2. Install Kubernetes Modules
 
-1) install helm (deploy & manage kubernetes packages)
+1) Install helm (deploy & manage kubernetes packages)
     ```bash
     $ wget https://get.helm.sh/helm-v3.7.1-darwin-arm64.tar.gz
     $ tar -xzvf helm-v3.7.1-darwin-arm64.tar.gz
     $ sudo mv darwin-arm64/helm /usr/local/bin/helm
     ```
 
-2) install kustomize (deploy & manage multiple kubernetes resources)
+2) Install kustomize (deploy & manage multiple kubernetes resources)
     ```bash
     $ wget https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.0.0/kustomize_v5.0.0_darwin_arm64.tar.gz
     $ tar -xzvf kustomize_v5.0.0_darwin_arm64.tar.gz
     $ sudo mv kustomize /usr/local/bin/kustomize
     ```
 
-3) install local path provisioner csi plugin
+3) Install local path provisioner csi plugin
     ```bash
     $ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.20/deploy/local-path-storage.yaml
 
@@ -237,7 +237,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     configmap/local-path-config created
     ```
 
-4) check if the provisioner pod in local-path-storage namespace is running
+4) Check if the provisioner pod in local-path-storage namespace is running
     ```bash
     $ kubectl -n local-path-storage get pod
 
@@ -261,7 +261,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     ```
 
 ## 4. Setup GPU
-1) install nvidia-driver
+1) Install nvidia-driver
     ```bash
     $ sudo add-apt-repository ppa:graphics-drivers/ppa
     $ sudo apt update && sudo apt install -y ubuntu-drivers-common
@@ -269,7 +269,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     $ sudo reboot
     ```
 
-2) check if the installation completed property
+2) Check if the installation completed property
     ```bash
     $ nvidia-smi
 
@@ -295,7 +295,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     +-----------------------------------------------------------------------------+
     ```
 
-3) install nvidia-docker
+3) Install nvidia-docker
     ```bash
     $ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
       sudo apt-key add -distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -305,7 +305,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     $ sudo systemctl restart docker
     ```
 
-4) check if the installation completed property
+4) Check if the installation completed property
     ```bash
     # pull docker image
     $ docker pull nvidia/cuda:11.8.0-base-ubuntu18.04
@@ -335,7 +335,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     +-----------------------------------------------------------------------------+
     ```
 
-5) set nvidia-docker as the default container runtime (add `default-runtime` line below)
+5) Set nvidia-docker as the default container runtime (add `default-runtime` line below)
     ```bash
     $ sudo vi /etc/docker/daemon.json
     ```
@@ -354,7 +354,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     }
     ```
 
-6) restart docker and check if the update applied successfully
+6) Restart docker and check if the update applied successfully
     ```bash
     # restart
     $ sudo systemctl daemon-reload
@@ -369,7 +369,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
      Default Runtime: nvidia
     ```
 
-7) create `nvidia-device-plugin` daemonset (run commands below on the local client)
+7) Create `nvidia-device-plugin` daemonset (run commands below on the local client)
     ```bash
     # create "nvidia-device-plugin" daemonset
     $ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.10.0/nvidia-device-plugin.yml
