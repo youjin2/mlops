@@ -57,7 +57,7 @@ $ sudo apt-get install -y socat
     # check if the "5:20.10.11~3-0~ubuntu-focal" exists
     $ apt-cache madison docker-ce | grep 5:20.10.11~3-0~ubuntu-focal
 
-    # expected result
+    # expected outputs
     docker-ce | 5:20.10.11~3-0~ubuntu-focal | https://download.docker.com/linux/ubuntu focal/stable amd64 Packages
 
     # install docker "5:20.10.11~3-0~ubuntu-focal"
@@ -68,7 +68,7 @@ $ sudo apt-get install -y socat
     ```bash
     $ sudo docker run hello-world
 
-    # expected result
+    # expected outputs
     Hello from Docker!
     This message shows that your installation appears to be working correctly.
 
@@ -154,7 +154,7 @@ Although k3s uses `containerd` as the default backend, since we're going to use 
     ```bash
     $ sudo cat /etc/rancher/k3s/k3s.yaml
 
-    # expected result
+    # expected outputs
     apiVersion: v1
     clusters:
     - cluster:
@@ -200,7 +200,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     ```bash
     $ kubectl get nodes -o wide
 
-    # expected result
+    # expected outputs
     NAME                         STATUS   ROLES                  AGE   VERSION        INTERNAL-IP       EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
     ubuntu                       Ready    control-plane,master   17h   v1.21.7+k3s1   192.168.219.103   <none>        Ubuntu 18.04.3 LTS   5.4.0-150-generic   docker://20.10.18
     ```
@@ -227,7 +227,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     ```bash
     $ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.20/deploy/local-path-storage.yaml
 
-    # expected result
+    # expected outputs
     namespace/local-path-storage created
     serviceaccount/local-path-provisioner-service-account created
     clusterrole.rbac.authorization.k8s.io/local-path-provisioner-role created
@@ -241,21 +241,21 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     ```bash
     $ kubectl -n local-path-storage get pod
 
-    # expected result
+    # expected outputs
     NAME                                      READY   STATUS    RESTARTS   AGE
     local-path-provisioner-556d4466c8-574rr   1/1     Running   0          126m
 
     # modify deafult storage class
     $ kubectl patch storageclass local-path  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-    # expected result
+    # expected outputs
     storageclass.storage.k8s.io/local-path patched
 
 
     # check if the "local-path (default)" storage class exist
     $ kubectl get sc
 
-    # expected result
+    # expected outputs
     NAME                   PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
     local-path (default)   rancher.io/local-path   Delete          WaitForFirstConsumer   false                  127m
     ```
@@ -273,7 +273,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     ```bash
     $ nvidia-smi
 
-    # expected result
+    # expected outputs
     +-----------------------------------------------------------------------------+
     | NVIDIA-SMI 510.108.03   Driver Version: 510.108.03   CUDA Version: 11.6     |
     |-------------------------------+----------------------+----------------------+
@@ -313,7 +313,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     # run docker image
     $ docker run --rm --gpus all nvidia/cuda:11.8.0-base-ubuntu18.04 nvidia-smi
 
-    # expected result
+    # expected outputs
     +-----------------------------------------------------------------------------+
     | NVIDIA-SMI 510.108.03   Driver Version: 510.108.03   CUDA Version: 11.8     |
     |-------------------------------+----------------------+----------------------+
@@ -363,7 +363,7 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     # check
     $ sudo docker info | grep nvidia
 
-    # expected result
+    # expected outputs
     WARNING: No swap limit support
      Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux nvidia runc
      Default Runtime: nvidia
@@ -377,13 +377,13 @@ Copy kubeconfig configured in the cluster to the local client and modify the ser
     # check if "nvidia-device-plugin" is running
     $ kubectl get pod -n kube-system | grep nvidia
 
-    # expected result
+    # expected outputs
     nvidia-device-plugin-daemonset-2lq94   1/1     Running   2          15m
 
     # check if gpus are available in node info
     $ kubectl get nodes "-o=custom-columns=NAME:.metadata.name,GPU:.status.allocatable.nvidia\.com/gpu"
 
-    # expected result
+    # expected outputs
     NAME                         GPU
     ygene2-system-product-name   1
     ```
