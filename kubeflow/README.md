@@ -27,13 +27,6 @@ We will cover MLOps pipeline working with [Kubeflow], [MLflow Tracking Server], 
     - Grafana is the open source analytics & monitoring solution for every database.
     - Install Prometheus & Grafana by following [SETUP_PROMETHEUS_GRAFANA.md]
 
-### 3-2. MLflow Tracking Server
-
-
-### 3-3. Seldon-Core
-
-### 3-4. Prometheus & Grafana
-
 
 ## 3. Kubeflow UI Guide
 

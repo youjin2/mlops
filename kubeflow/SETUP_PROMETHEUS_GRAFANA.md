@@ -1,5 +1,7 @@
 ## 1. Install Prometheus & Grafana
-Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud and Grafana is the open source analytics & monitoring solution for every database. 
+[Prometheus] is an open-source systems monitoring and alerting toolkit originally built at SoundCloud, and is widely used to collect metrics from various sources. [Grafana] is the open source analytics & monitoring solution for every database, and is widely used to visualize colleted data.
+
+We will use `seldonio/seldon-core-analytics Helm Chart 1.12.0` to install prometheus & grafana on the Kubernetes cluster, and will check whether the metrcis of `SeldonDeployment` created by `Seldon-Core` are collected well.
 
 1) Add Helm Repository
     ```bash
