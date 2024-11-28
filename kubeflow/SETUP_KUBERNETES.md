@@ -140,7 +140,7 @@ Install Kubectl on a client as follows:
     ```
 
 ## 3. Install Kubernetes
-Before installing the kubernetes cluster, make sure that all the components in [2. Install Prerequisite](#2.-install-prerequisite) are installed.
+Before installing the kubernetes cluster, make sure that all the components in [2. Install Prerequisite](#2-install-prerequisites) are installed.
 
 ### 3-1. Install K3s
 Although k3s uses `containerd` as the default backend, since we're going to use GPU, we we will use `docker` as the backend.
