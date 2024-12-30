@@ -38,7 +38,7 @@
     http://localhost:9000/minio/login
     ```
 
-    <img src="figures/minio-ui.png" width="1000" height="400">
+    <img src="figures/minio-ui.png">
 
 2) Login MinIO Browser
     ```
@@ -48,7 +48,7 @@
 
 3) Create `mlflow` Bucket
 
-    <img src="figures/minio-mlflow-bucket.png" width="1000" height="400">
+    <img src="figures/minio-mlflow-bucket.png">
 
 
 ## 3. Install MLflow Tracking Server
@@ -104,7 +104,7 @@ MLflow tracking server is a stand-alone HTTP server that serves multiple REST AP
     http://localhost:5000/
     ```
 
-    <img src="figures/mlflow-tracking-server-ui.png" width="1000" height="400">
+    <img src="figures/mlflow-tracking-server-ui.png">
 
 
 

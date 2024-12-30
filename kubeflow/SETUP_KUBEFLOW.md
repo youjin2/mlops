@@ -364,7 +364,7 @@ Dex acts as a portal to other identity providers through "connectors." This lets
     http://localhost:8888/#/pipelines/
     ```
 
-    <img src="figures/ml-pipeline-ui.png" width="1000" height="250">
+    <img src="figures/ml-pipeline-ui.png">
 
 ## 10. Install Katib
 
@@ -430,7 +430,7 @@ Dex acts as a portal to other identity providers through "connectors." This lets
     http://localhost:8081/katib/
     ```
 
-    <img src="figures/katib-ui.png" width="1000" height="170">
+    <img src="figures/katib-ui.png">
 
 ## 11. Install Central Dashboard
 
@@ -470,7 +470,7 @@ Dex acts as a portal to other identity providers through "connectors." This lets
     http://localhost:8082/
     ```
 
-    <img src="figures/central-dashboard-ui.png" width="1000" height="400">
+    <img src="figures/central-dashboard-ui.png">
 
 
 ## 12. Install Admission Webhook
@@ -748,7 +748,7 @@ Dex acts as a portal to other identity providers through "connectors." This lets
     http://localhost:8080/
     ```
 
-    <img src="figures/login-ui.png" width="1000" height="400">
+    <img src="figures/login-ui.png">
 
 4) Login and check if the central dashboard UI appears
     ```bash
@@ -756,7 +756,7 @@ Dex acts as a portal to other identity providers through "connectors." This lets
     Password: 12341234
     ```
 
-    <img src="figures/central-dashboard-login-ui.png" width="1000" height="400">
+    <img src="figures/central-dashboard-login-ui.png">
 
 
 

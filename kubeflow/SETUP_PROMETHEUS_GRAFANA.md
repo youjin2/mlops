@@ -60,7 +60,7 @@ We will use `seldonio/seldon-core-analytics Helm Chart 1.12.0` to install promet
     # open browser and check if the figure below is printed
     ```
 
-    <img src="figures/grafana-ui.png" width="1000" height="400">
+    <img src="figures/grafana-ui.png">
 
 6) Login Grafana
     ```
@@ -73,7 +73,7 @@ We will use `seldonio/seldon-core-analytics Helm Chart 1.12.0` to install promet
     Grafana -> Dashboards (left dashboard icon) -> Manage -> Predictive Analytics
     ```
 
-    <img src="figures/seldon-core-api-dashboard.png" width="1000" height="400">
+    <img src="figures/seldon-core-api-dashboard.png">
 
 
 
